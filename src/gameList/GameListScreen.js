@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default class GameListScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Join a game',
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -17,7 +21,7 @@ export default class GameListScreen extends React.Component {
     );
   }
 
-  backHome = async mode => {
+  backHome = async => {
     try {
       const { navigation } = this.props;
       navigation.navigate('Home', {
@@ -30,7 +34,7 @@ export default class GameListScreen extends React.Component {
       );
     }
   };
-}
+};
 
 const styles = StyleSheet.create({
   container: {

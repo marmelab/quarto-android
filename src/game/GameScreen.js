@@ -4,6 +4,23 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default class GameScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const gameId = navigation.state.params.game.id;
+    const numberPlayers = navigation.state.params.game.numberPlayers;
+    let title = `Quarto game `;
+    if (gameId) {
+      title += ` #${gameId}`;
+    }
+    if (numberPlayers) {
+      title += ` (${numberPlayers} players)`;
+    }
+    return { title };
+  };
+
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -15,23 +32,22 @@ export default class GameScreen extends React.Component {
           title="Back to home"></Button>
       </View>
     );
-  }
+  };
 
-  backHome = async mode => {
+  backHome = async => {
     try {
       const { navigation } = this.props;
       navigation.navigate('Home', {
       });
     } catch (error) {
       ToastAndroid.showWithGravity(
-        'A server error occured, please retry later.' ,
+        'A server error occured, please retry later.',
         ToastAndroid.LONG,
         ToastAndroid.BOTTOM,
       );
     }
   };
 }
-
 
 const styles = StyleSheet.create({
   container: {

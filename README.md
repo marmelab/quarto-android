@@ -15,3 +15,11 @@ Run Quarto Android game on android
 ``` bash
 make run
 ```
+
+## Lint the code
+
+Inspect source codes and writing rules
+
+``` bash
+make lint
+```
