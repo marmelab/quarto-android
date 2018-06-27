@@ -39,6 +39,7 @@
                 ]
             }
         ],
+        "react-native/split-platform-components": 0,
         "no-unused-vars": [
             "error",
             {
