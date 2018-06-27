@@ -6,6 +6,12 @@ The game of Quarto, in react native.
 
 Make sure to have `nodejs`, `npm` and `android` installed.
 
+## Install the game
+
+``` bash
+make install
+```
+
 ## Run the game
 
 _Note: make sure to have a connected device before running the project._
