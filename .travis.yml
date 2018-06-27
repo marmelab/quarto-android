@@ -11,7 +11,3 @@ install:
 script:
   - make lint
   - make test
-
-branches:
-  only:
-    - master
