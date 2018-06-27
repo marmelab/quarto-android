@@ -8,5 +8,8 @@ help:
 run: ## Run Quarto android
 	npm start
 
+test: ## Run the unit tests
+	npm test
+
 lint: ## Inpect code syntax and writing rules
 	eslint .

@@ -16,9 +16,17 @@ Run Quarto Android game on android
 make run
 ```
 
+## Test the code
+
+Run unit tests on source code
+
+``` bash
+make test
+```
+
 ## Lint the code
 
-Inspect source codes and writing rules
+Inspect source code and writing rules
 
 ``` bash
 make lint
