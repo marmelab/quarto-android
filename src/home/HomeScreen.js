@@ -48,8 +48,8 @@ export default class HomeScreen extends React.Component {
         }
     };
 
-    openGame = game => {
-        const navigation = this.props;
+    openGame = async game => {
+        const { navigation } = this.props;
         navigation.navigate('Game', {
             game,
         });
