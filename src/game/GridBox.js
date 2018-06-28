@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { StyleSheet } from 'react-native';
 import Box from './Box';
 
 export default class GridBox extends Box {
@@ -19,6 +20,13 @@ export default class GridBox extends Box {
     };
 
     render() {
-        return super.render();
+        return super.render(styles.boxSize);
     }
 }
+
+const styles = StyleSheet.create({
+    boxSize: {
+        height: 60,
+        width: 60,
+    },
+});

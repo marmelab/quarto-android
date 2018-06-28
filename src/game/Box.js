@@ -20,20 +20,17 @@ export default class Box extends Component {
         }
     };
 
-    render() {
+    render(boxSize) {
         const { enabled, boxValue } = this.props;
         const pieceImageArray = initImagesRequire();
 
         return (
             <TouchableHighlight
-                style={[styles.box, enabled ? styles.enabled : '']}
+                style={[boxSize, styles.box, enabled ? styles.enabled : '']}
                 onPress={this.press}
                 underlayColor={clickedBoxColor}
             >
-                <Image
-                    style={styles.image}
-                    source={pieceImageArray[boxValue]}
-                />
+                <Image style={boxSize} source={pieceImageArray[boxValue]} />
             </TouchableHighlight>
         );
     }
@@ -68,16 +65,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: normalBoxColor,
         display: 'flex',
-        height: 60,
         justifyContent: 'center',
         margin: 4,
-        width: 60,
     },
     enabled: {
         elevation: 3,
-    },
-    image: {
-        height: 60,
-        width: 60,
     },
 });

@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import Box from './Box';
 
 export default class RemainingBox extends Box {
@@ -13,6 +14,13 @@ export default class RemainingBox extends Box {
     };
 
     render() {
-        return super.render();
+        return super.render(styles.boxSize);
     }
 }
+
+const styles = StyleSheet.create({
+    boxSize: {
+        height: 40,
+        width: 40,
+    },
+});

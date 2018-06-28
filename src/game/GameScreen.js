@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ToastAndroid, Text, View } from 'react-native';
+import { ToastAndroid, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { placePiece, selectPiece } from '../services/GameService';
@@ -35,22 +35,16 @@ export default class GameScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Quarto Android</Text>
-                <Text>This is the game</Text>
                 <Grid
                     onPress={this.placePiece}
                     grid={this.state.game.grid}
                     readOnly={false}
                 />
+                <Text>Choose a piece for opponent</Text>
                 <RemainingList
                     onPress={this.selectPiece}
                     list={this.state.game.allPieces}
                     readOnly={false}
-                />
-                <Button
-                    style={styles.button}
-                    onPress={this.backHome}
-                    title="Back to home"
                 />
             </View>
         );
