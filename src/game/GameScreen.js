@@ -2,14 +2,17 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
-import { placePiece, selectPiece } from '../services/GameService';
+import { placePiece, selectPiece, newEmptyGame } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
 
 export default class GameScreen extends React.Component {
     state = {
-        game: this.props.navigation.state.params.game,
+        game:
+            this.props.navigation && this.props.navigation.state
+                ? this.props.navigation.state.params.game
+                : newEmptyGame(2),
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -30,6 +33,7 @@ export default class GameScreen extends React.Component {
     };
 
     render() {
+        if (this.state.game.idGame == 0) showWarning();
         return (
             <View style={styles.container}>
                 <Grid

@@ -14,13 +14,19 @@ function handleErrors(res) {
     return res;
 }
 
-export const newGameTest = numberOfPlayers => {
-    var grid = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']];
+export const newEmptyGame = numberOfPlayers => {
+    var grid = [
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+        ['.', '.', '.', '.'],
+    ];
     return {
-        idGame: '1',
+        idGame: '0',
         grid: grid,
         selectedPiece: 0,
         numberOfPlayers: numberOfPlayers,
+        allPieces: {},
     };
 };
 
