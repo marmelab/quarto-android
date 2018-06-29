@@ -20,7 +20,10 @@ export default class GridBox extends Box {
     };
 
     render() {
-        return super.render(styles.boxSize);
+        return super.render(
+            styles.boxSize,
+            'gridbox_x' + String(this.props.x) + '_y' + String(this.props.y),
+        );
     }
 }
 

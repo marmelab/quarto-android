@@ -59,9 +59,9 @@ function setupSimulatePress() {
                 'TouchableHighlight',
                 {
                     ...props,
-                    onClick: props.onPress,
+                    onClick: props.onPress, // eslint-disable-line
                 },
-                props.children,
+                props.children, // eslint-disable-line
             );
         TouchableHighlight.propTypes = RealComponent.propTypes;
         return TouchableHighlight;

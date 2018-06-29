@@ -14,7 +14,7 @@ export default class RemainingBox extends Box {
     };
 
     render() {
-        return super.render(styles.boxSize);
+        return super.render(styles.boxSize, 'remainingbox');
     }
 }
 

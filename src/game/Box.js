@@ -20,18 +20,21 @@ export default class Box extends Component {
         }
     };
 
-    render(boxSize) {
+    render(boxSize, label = 'box') {
         const { enabled, boxValue } = this.props;
         const pieceImageArray = initImagesRequire();
 
         return (
-            <TouchableHighlight
-                style={[boxSize, styles.box, enabled ? styles.enabled : '']}
-                onPress={this.handlePress}
-                underlayColor={clickedBoxColor}
-            >
-                <Image style={boxSize} source={pieceImageArray[boxValue]} />
-            </TouchableHighlight>
+            <label>
+                {label}
+                <TouchableHighlight
+                    style={[boxSize, styles.box, enabled ? styles.enabled : '']}
+                    onPress={this.handlePress}
+                    underlayColor={clickedBoxColor}
+                >
+                    <Image style={boxSize} source={pieceImageArray[boxValue]} />
+                </TouchableHighlight>
+            </label>
         );
     }
 }

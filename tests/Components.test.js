@@ -10,6 +10,9 @@ import {
     fireEvent,
     cleanup,
     waitForElement,
+    queryAllByText,
+    getByText,
+    querySelectorAll,
 } from 'react-testing-library';
 
 import renderer from 'react-test-renderer';
@@ -24,10 +27,18 @@ describe('Components tests', () => {
             data: { greeting: 'hello there' },
         });
         const url = '/greeting'; */
-        const toto = render(
+
+        const { queryAllByLabelText } = render(
             <Grid onPress={jest.fn()} grid={game.grid} readOnly={false} />,
         );
-        console.debug({ toto });
+
+        const boxes = queryAllByLabelText('gridbox', { exact: false });
+        expect(boxes).toHaveLength(16);
+        //console.debug({ grid.childs.first });
+        //console.debug({ grid });
+        //expect(grid).toHaveLength(3); // expect 3 elements
+        //expect(grid).toBeInTheDOM();
+        //const boxes = grid('GridBox');
 
         // Act
         //fireEvent.click(getByText('Load Greeting'));
