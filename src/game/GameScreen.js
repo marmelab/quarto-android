@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Toast, Text, View } from 'react-native';
+import { Button, ToastAndroid, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 
@@ -40,10 +40,10 @@ export default class GameScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('Home');
         } catch (error) {
-            Toast.showWithGravity(
+            ToastAndroid.showWithGravity(
                 'A server error occured, please retry later.',
-                Toast.LONG,
-                Toast.BOTTOM,
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
             );
         }
     };

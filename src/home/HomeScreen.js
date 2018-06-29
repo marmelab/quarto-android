@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Toast, Text, View } from 'react-native';
+import { Button, ToastAndroid, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
 import { newGame } from '../services/GameService';
 
@@ -40,10 +40,10 @@ export default class HomeScreen extends React.Component {
             var game = await newGame(numberPlayers);
             this.openGame(game);
         } catch (error) {
-            Toast.showWithGravity(
+            ToastAndroid.showWithGravity(
                 'A server error occured, please retry later.',
-                Toast.LONG,
-                Toast.BOTTOM,
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
             );
         }
     };
@@ -60,10 +60,10 @@ export default class HomeScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('GameList');
         } catch (error) {
-            Toast.showWithGravity(
+            ToastAndroid.showWithGravity(
                 'A server error occured, please retry later.',
-                Toast.LONG,
-                Toast.BOTTOM,
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
             );
         }
     };
