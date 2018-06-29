@@ -12,7 +12,7 @@ export default class GridBox extends Box {
         enabled: true,
     };
 
-    press = () => {
+    handlePress = () => {
         const { enabled, x, y, onPress } = this.props;
         if (enabled) {
             onPress(x, y);

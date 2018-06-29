@@ -1,29 +1,26 @@
 import React from 'react';
-import { ToastAndroid, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { placePiece, selectPiece } from '../services/GameService';
+import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
 
 export default class GameScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            game: props.navigation.state.params.game,
-            name: 'toto',
-        };
-    }
+    state = {
+        game: this.props.navigation.state.params.game,
+    };
 
     static navigationOptions = ({ navigation }) => {
         const idGame = navigation.state.params.game.idGame;
-        const numberPlayers = navigation.state.params.game.numberPlayers;
+        const numberOfPlayers = 2;
         let title = `Quarto game `;
         if (idGame) {
             title += ` #${idGame}`;
         }
-        if (numberPlayers) {
-            title += ` (${numberPlayers} players)`;
+        if (numberOfPlayers) {
+            title += ` (${numberOfPlayers} players)`;
         }
         return { title };
     };
@@ -36,13 +33,13 @@ export default class GameScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <Grid
-                    onPress={this.placePiece}
+                    onPress={this.handleGridPress}
                     grid={this.state.game.grid}
                     readOnly={false}
                 />
                 <Text>Choose a piece for opponent</Text>
                 <RemainingList
-                    onPress={this.selectPiece}
+                    onPress={this.handleRemainingListPress}
                     list={this.state.game.allPieces}
                     readOnly={false}
                 />
@@ -50,30 +47,25 @@ export default class GameScreen extends React.Component {
         );
     }
 
-    placePiece = async (x, y) => {
-        var newGame = await placePiece(this.state.game, x, y);
-        this.setState({
-            game: newGame,
-        });
-    };
-
-    selectPiece = async piece => {
-        var newGame = await selectPiece(this.state.game, piece);
-        this.setState({
-            game: newGame,
-        });
-    };
-
-    backHome = async () => {
+    handleGridPress = async (x, y) => {
         try {
-            const { navigation } = this.props;
-            navigation.navigate('Home');
+            var newGame = await placePiece(this.state.game, x, y);
+            this.setState({
+                game: newGame,
+            });
         } catch (error) {
-            ToastAndroid.showWithGravity(
-                'A server error occured, please retry later.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-            );
+            showWarning();
+        }
+    };
+
+    handleRemainingListPress = async piece => {
+        try {
+            var newGame = await selectPiece(this.state.game, piece);
+            this.setState({
+                game: newGame,
+            });
+        } catch (error) {
+            showWarning();
         }
     };
 }

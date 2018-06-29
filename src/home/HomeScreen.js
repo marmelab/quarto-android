@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, ToastAndroid, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
 import { newGame } from '../services/GameService';
+import { showWarning } from '../services/WarningService';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -13,16 +14,20 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <Text>Quarto Android</Text>
                 <Text>This is your home</Text>
-                <Button
-                    style={styles.button}
-                    onPress={this.openNewGame2P}
-                    title="Start a new game (2P)"
-                />
-                <Button
-                    style={styles.button}
-                    onPress={this.showGameList}
-                    title="Show existing games"
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
+                        onPress={this.openNewGame2P}
+                        title="Start a new game (2P)"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
+                        onPress={this.showGameList}
+                        title="Show existing games"
+                    />
+                </View>
             </View>
         );
     }
@@ -35,16 +40,12 @@ export default class HomeScreen extends React.Component {
         this.openNewGame(1);
     };
 
-    openNewGame = async numberPlayers => {
+    openNewGame = async numberOfPlayers => {
         try {
-            var game = await newGame(numberPlayers);
+            var game = await newGame(numberOfPlayers);
             this.openGame(game);
         } catch (error) {
-            ToastAndroid.showWithGravity(
-                'A server error occured, please retry later.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-            );
+            showWarning();
         }
     };
 
@@ -60,11 +61,7 @@ export default class HomeScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('GameList');
         } catch (error) {
-            ToastAndroid.showWithGravity(
-                'A server error occured, please retry later.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-            );
+            showWarning();
         }
     };
 }

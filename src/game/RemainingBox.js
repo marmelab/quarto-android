@@ -6,7 +6,7 @@ export default class RemainingBox extends Box {
         enabled: true,
     };
 
-    press = () => {
+    handlePress = () => {
         const { enabled, boxValue, onPress } = this.props;
         if (enabled) {
             onPress(boxValue);

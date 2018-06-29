@@ -14,17 +14,17 @@ function handleErrors(res) {
     return res;
 }
 
-export const newGameTest = numberPlayers => {
+export const newGameTest = numberOfPlayers => {
     var grid = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']];
     return {
         idGame: '1',
         grid: grid,
         selectedPiece: 0,
-        numberPlayers: numberPlayers,
+        numberOfPlayers: numberOfPlayers,
     };
 };
 
-export const newGame = numberPlayers => {
+export const newGame = () => {
     const url = `${BASE_URL}`;
     const method = 'POST';
     const headers = Object.assign({}, HEADER_JSON);
@@ -35,7 +35,6 @@ export const newGame = numberPlayers => {
         .then(handleErrors)
         .then(res => res.json())
         .then(res => {
-            res.numberPlayers = numberPlayers;
             return res;
         });
 };
@@ -51,7 +50,6 @@ export const placePiece = (game, x, y) => {
         .then(handleErrors)
         .then(res => res.json())
         .then(res => {
-            res.numberPlayers = game.numberOfPlayers;
             return res;
         });
 };
@@ -67,7 +65,6 @@ export const selectPiece = (game, piece) => {
         .then(handleErrors)
         .then(res => res.json())
         .then(res => {
-            res.numberPlayers = game.numberOfPlayers;
             return res;
         });
 };

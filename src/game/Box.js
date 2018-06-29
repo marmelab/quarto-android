@@ -13,7 +13,7 @@ export default class Box extends Component {
         enabled: true,
     };
 
-    press = () => {
+    handlePress = () => {
         const { enabled, boxValue, onPress } = this.props;
         if (enabled) {
             onPress(boxValue);
@@ -27,7 +27,7 @@ export default class Box extends Component {
         return (
             <TouchableHighlight
                 style={[boxSize, styles.box, enabled ? styles.enabled : '']}
-                onPress={this.press}
+                onPress={this.handlePress}
                 underlayColor={clickedBoxColor}
             >
                 <Image style={boxSize} source={pieceImageArray[boxValue]} />
