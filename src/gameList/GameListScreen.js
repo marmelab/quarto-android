@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, ToastAndroid, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
+import { showWarning } from '../services/WarningService';
 
 export default class GameListScreen extends React.Component {
     static navigationOptions = {
@@ -26,11 +27,7 @@ export default class GameListScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('Home');
         } catch (error) {
-            ToastAndroid.showWithGravity(
-                'A server error occured, please retry later.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-            );
+            showWarning(error);
         }
     };
 }

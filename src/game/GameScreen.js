@@ -1,18 +1,29 @@
 import React from 'react';
-import { Button, ToastAndroid, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
+import { placePiece, selectPiece, newEmptyGame } from '../services/GameService';
+import { showWarning } from '../services/WarningService';
+import Grid from './Grid';
+import RemainingList from './RemainingList';
 
 export default class GameScreen extends React.Component {
+    state = {
+        game:
+            this.props.navigation && this.props.navigation.state
+                ? this.props.navigation.state.params.game
+                : newEmptyGame(2),
+    };
+
     static navigationOptions = ({ navigation }) => {
-        const gameId = navigation.state.params.game.id;
-        const numberPlayers = navigation.state.params.game.numberPlayers;
+        const idGame = navigation.state.params.game.idGame;
+        const numberOfPlayers = 2;
         let title = `Quarto game `;
-        if (gameId) {
-            title += ` #${gameId}`;
+        if (idGame) {
+            title += ` #${idGame}`;
         }
-        if (numberPlayers) {
-            title += ` (${numberPlayers} players)`;
+        if (numberOfPlayers) {
+            title += ` (${numberOfPlayers} players)`;
         }
         return { title };
     };
@@ -22,29 +33,43 @@ export default class GameScreen extends React.Component {
     };
 
     render() {
+        if (this.state.game.idGame == 0) showWarning();
         return (
             <View style={styles.container}>
-                <Text>Quarto Android</Text>
-                <Text>This is the game</Text>
-                <Button
-                    style={styles.button}
-                    onPress={this.backHome}
-                    title="Back to home"
+                <Grid
+                    onPress={this.handleGridPress}
+                    grid={this.state.game.grid}
+                    readOnly={false}
+                />
+                <Text>Choose a piece for opponent</Text>
+                <RemainingList
+                    onPress={this.handleRemainingListPress}
+                    list={this.state.game.allPieces}
+                    readOnly={false}
                 />
             </View>
         );
     }
 
-    backHome = async () => {
+    handleGridPress = async (x, y) => {
         try {
-            const { navigation } = this.props;
-            navigation.navigate('Home');
+            var newGame = await placePiece(this.state.game, x, y);
+            this.setState({
+                game: newGame,
+            });
         } catch (error) {
-            ToastAndroid.showWithGravity(
-                'A server error occured, please retry later.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-            );
+            showWarning(error);
+        }
+    };
+
+    handleRemainingListPress = async piece => {
+        try {
+            var newGame = await selectPiece(this.state.game, piece);
+            this.setState({
+                game: newGame,
+            });
+        } catch (error) {
+            showWarning(error);
         }
     };
 }
