@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
-import { getGame, listGames } from '../services/GameService';
+import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 
 export default class GameListScreen extends React.Component {
@@ -76,9 +76,8 @@ export default class GameListScreen extends React.Component {
     openGame = async idGame => {
         const { navigation } = this.props;
         try {
-            const game = await getGame(idGame);
             navigation.navigate('Game', {
-                game,
+                idGame,
             });
         } catch (error) {
             showWarning();

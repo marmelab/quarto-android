@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
-import { newGame, listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 
 export default class HomeScreen extends React.Component {
@@ -16,7 +15,7 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         style={styles.button}
-                        onPress={this.openNewGame2P}
+                        onPress={() => this.openNewGame(2)}
                         title="Start a new game (2P)"
                     />
                 </View>
@@ -31,35 +30,17 @@ export default class HomeScreen extends React.Component {
         );
     }
 
-    openNewGame2P = () => {
-        this.openNewGame(2);
-    };
-
-    openNewGame1P = () => {
-        this.openNewGame(1);
-    };
-
-    openNewGame = async numberOfPlayers => {
-        try {
-            const game = await newGame(numberOfPlayers);
-            this.openGame(game);
-        } catch (error) {
-            showWarning(error);
-        }
-    };
-
-    openGame = async game => {
+    openNewGame = async numberPlayers => {
         const { navigation } = this.props;
         navigation.navigate('Game', {
-            game,
+            numberPlayers,
         });
     };
 
     showGameList = async () => {
         try {
             const { navigation } = this.props;
-            const games = await listGames();
-            navigation.navigate('GameList', { games });
+            navigation.navigate('GameList');
         } catch (error) {
             showWarning(error);
         }

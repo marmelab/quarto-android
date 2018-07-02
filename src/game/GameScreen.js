@@ -2,19 +2,27 @@ import React from 'react';
 import { Text, View, ActivityIndicator, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
-import { placePiece, selectPiece } from '../services/GameService';
+import {
+    getGame,
+    newGame,
+    placePiece,
+    selectPiece,
+} from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
 
 export default class GameScreen extends React.Component {
     state = {
-        game: this.props.navigation.state.params.game,
+        game: {},
         loading: true,
     };
 
-    static navigationOptions = ({ navigation }) => {
-        const idGame = navigation.state.params.game.idGame;
+    static navigationOptions = () => {
+        const idGame =
+            this.state && this.state.game && this.state.game.idGame
+                ? this.state.game.idGame
+                : '0';
         const numberOfPlayers = 2;
         let title = `Quarto game `;
         if (idGame) {
@@ -31,9 +39,16 @@ export default class GameScreen extends React.Component {
     };
 
     async componentDidMount() {
+        const { idGame, numberPlayers } = this.props.navigation.state.params;
         this.setState({ loading: true });
+        let game = {};
+        if (idGame) {
+            game = await getGame(idGame);
+        } else if (numberPlayers) {
+            game = await newGame(numberPlayers);
+        }
         //const games = await listGames();
-        this.setState({ loading: false });
+        this.setState({ game, loading: false });
     }
 
     render() {
