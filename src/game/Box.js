@@ -6,7 +6,7 @@ export default class Box extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
-        boxSize: PropTypes.instanceOf(StyleSheet).isRequired,
+        boxSize: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
     };
@@ -18,7 +18,6 @@ export default class Box extends Component {
     render() {
         const { enabled, boxValue, boxSize, label, onPress } = this.props;
         const pieceImageArray = initImagesRequire();
-
         return (
             <TouchableHighlight
                 accessible={true}
@@ -34,23 +33,25 @@ export default class Box extends Component {
 }
 
 const initImagesRequire = () => {
-    var pieceImageArray = [];
-    pieceImageArray[1] = require('../../resources/images/pieceImage1.png');
-    pieceImageArray[2] = require('../../resources/images/pieceImage2.png');
-    pieceImageArray[3] = require('../../resources/images/pieceImage3.png');
-    pieceImageArray[4] = require('../../resources/images/pieceImage4.png');
-    pieceImageArray[5] = require('../../resources/images/pieceImage5.png');
-    pieceImageArray[6] = require('../../resources/images/pieceImage6.png');
-    pieceImageArray[7] = require('../../resources/images/pieceImage7.png');
-    pieceImageArray[8] = require('../../resources/images/pieceImage8.png');
-    pieceImageArray[9] = require('../../resources/images/pieceImage9.png');
-    pieceImageArray[10] = require('../../resources/images/pieceImage10.png');
-    pieceImageArray[11] = require('../../resources/images/pieceImage11.png');
-    pieceImageArray[12] = require('../../resources/images/pieceImage12.png');
-    pieceImageArray[13] = require('../../resources/images/pieceImage13.png');
-    pieceImageArray[14] = require('../../resources/images/pieceImage14.png');
-    pieceImageArray[15] = require('../../resources/images/pieceImage15.png');
-    pieceImageArray[16] = require('../../resources/images/pieceImage16.png');
+    const pieceImageArray = [
+        0,
+        require('../../resources/images/pieceImage1.png'),
+        require('../../resources/images/pieceImage2.png'),
+        require('../../resources/images/pieceImage3.png'),
+        require('../../resources/images/pieceImage4.png'),
+        require('../../resources/images/pieceImage5.png'),
+        require('../../resources/images/pieceImage6.png'),
+        require('../../resources/images/pieceImage7.png'),
+        require('../../resources/images/pieceImage8.png'),
+        require('../../resources/images/pieceImage9.png'),
+        require('../../resources/images/pieceImage10.png'),
+        require('../../resources/images/pieceImage11.png'),
+        require('../../resources/images/pieceImage12.png'),
+        require('../../resources/images/pieceImage13.png'),
+        require('../../resources/images/pieceImage14.png'),
+        require('../../resources/images/pieceImage15.png'),
+        require('../../resources/images/pieceImage16.png'),
+    ];
     return pieceImageArray;
 };
 

@@ -1,4 +1,5 @@
 import config from '../config.dist';
+import { storeGameToken, retrieveGameTokenList } from './StorageService';
 
 const HEADER_JSON = {
     Accept: 'application/json',
@@ -15,7 +16,7 @@ function handleErrors(res) {
 }
 
 export const newEmptyGame = numberOfPlayers => {
-    var grid = [
+    const grid = [
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
@@ -33,6 +34,37 @@ export const newEmptyGame = numberOfPlayers => {
 export const newGame = () => {
     const url = `${BASE_URL}`;
     const method = 'POST';
+    const headers = Object.assign({}, HEADER_JSON);
+    return fetch(url, {
+        method,
+        headers,
+    })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(res => {
+            storeGameToken(res.idGame, res.tokenPlayerOne);
+            return res;
+        });
+};
+
+export const getGame = idGame => {
+    const url = `${BASE_URL}/${idGame}`;
+    const method = 'GET';
+    const headers = Object.assign({}, HEADER_JSON);
+    return fetch(url, {
+        method,
+        headers,
+    })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(res => {
+            return res;
+        });
+};
+
+export const listGames = () => {
+    const url = `${BASE_URL}/list?${retrieveGameTokenList()}`;
+    const method = 'GET';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
         method,
