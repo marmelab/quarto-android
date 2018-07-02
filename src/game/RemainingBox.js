@@ -1,7 +1,15 @@
+import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import Box from './Box';
 
-export default class RemainingBox extends Box {
+export default class RemainingBox extends Component {
+    static propTypes = {
+        onPress: PropTypes.func.isRequired,
+        boxValue: PropTypes.string.isRequired,
+        enabled: PropTypes.bool,
+    };
+
     static defaultProps = {
         enabled: true,
     };
@@ -14,7 +22,17 @@ export default class RemainingBox extends Box {
     };
 
     render() {
-        return super.render(styles.boxSize, 'remainingbox');
+        const { boxValue, enabled } = this.props;
+
+        return (
+            <Box
+                boxSize={styles.boxSize}
+                enabled={enabled}
+                boxValue={boxValue}
+                label={'remainingbox'}
+                onPress={this.handlePress}
+            />
+        );
     }
 }
 

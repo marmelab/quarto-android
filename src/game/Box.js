@@ -6,6 +6,8 @@ export default class Box extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
+        boxSize: PropTypes.instanceOf(StyleSheet).isRequired,
+        label: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
     };
 
@@ -13,15 +15,8 @@ export default class Box extends Component {
         enabled: true,
     };
 
-    handlePress = () => {
-        const { enabled, boxValue, onPress } = this.props;
-        if (enabled) {
-            onPress(boxValue);
-        }
-    };
-
-    render(boxSize, label = 'box') {
-        const { enabled, boxValue } = this.props;
+    render() {
+        const { enabled, boxValue, boxSize, label, onPress } = this.props;
         const pieceImageArray = initImagesRequire();
 
         return (
@@ -29,7 +24,7 @@ export default class Box extends Component {
                 accessible={true}
                 accessibilityLabel={label}
                 style={[boxSize, styles.box, enabled ? styles.enabled : '']}
-                onPress={this.handlePress}
+                onPress={onPress}
                 underlayColor={clickedBoxColor}
             >
                 <Image style={boxSize} source={pieceImageArray[boxValue]} />

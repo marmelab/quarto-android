@@ -1,11 +1,15 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import Box from './Box';
 
-export default class GridBox extends Box {
+export default class GridBox extends Component {
     static propTypes = {
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,
+        onPress: PropTypes.func.isRequired,
+        boxValue: PropTypes.string.isRequired,
+        enabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -20,9 +24,16 @@ export default class GridBox extends Box {
     };
 
     render() {
-        return super.render(
-            styles.boxSize,
-            'gridbox_x' + String(this.props.x) + '_y' + String(this.props.y),
+        const { boxValue, enabled, x, y } = this.props;
+
+        return (
+            <Box
+                boxSize={styles.boxSize}
+                enabled={enabled}
+                boxValue={boxValue}
+                label={'gridbox_x' + String(x) + '_y' + String(y)}
+                onPress={this.handlePress}
+            />
         );
     }
 }
