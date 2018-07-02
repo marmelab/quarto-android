@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
-import { newGame } from '../services/GameService';
+import { newGame, listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 
 export default class HomeScreen extends React.Component {
@@ -13,7 +13,6 @@ export default class HomeScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <Text>Quarto Android</Text>
-                <Text>This is your home</Text>
                 <View style={styles.buttonContainer}>
                     <Button
                         style={styles.button}
@@ -59,7 +58,8 @@ export default class HomeScreen extends React.Component {
     showGameList = async () => {
         try {
             const { navigation } = this.props;
-            navigation.navigate('GameList');
+            var games = await listGames();
+            navigation.navigate('GameList', { games });
         } catch (error) {
             showWarning(error);
         }
