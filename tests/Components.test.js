@@ -7,17 +7,17 @@ function queryAllByAccessibilityText(
     container,
     accessibilityLabel,
     { exact = true, collapseWhitespace = true, trim = true } = {},
+    element = 'TouchableHighlight',
 ) {
     const matcher = exact ? matches : fuzzyMatches;
     const matchOpts = { collapseWhitespace, trim };
-    return Array.from(container.querySelectorAll('TouchableHighlight')).filter(
-        node =>
-            matcher(
-                node.getAttribute('accessibilitylabel'),
-                node,
-                accessibilityLabel,
-                matchOpts,
-            ),
+    return Array.from(container.querySelectorAll(element)).filter(node =>
+        matcher(
+            node.getAttribute('accessibilitylabel'),
+            node,
+            accessibilityLabel,
+            matchOpts,
+        ),
     );
 }
 

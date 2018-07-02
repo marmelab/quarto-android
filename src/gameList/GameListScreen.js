@@ -27,7 +27,7 @@ export default class GameListScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('Home');
         } catch (error) {
-            showWarning();
+            showWarning(error);
         }
     };
 }

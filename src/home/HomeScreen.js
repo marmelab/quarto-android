@@ -45,7 +45,7 @@ export default class HomeScreen extends React.Component {
             var game = await newGame(numberOfPlayers);
             this.openGame(game);
         } catch (error) {
-            showWarning();
+            showWarning(error);
         }
     };
 
@@ -61,7 +61,7 @@ export default class HomeScreen extends React.Component {
             const { navigation } = this.props;
             navigation.navigate('GameList');
         } catch (error) {
-            showWarning();
+            showWarning(error);
         }
     };
 }

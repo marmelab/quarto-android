@@ -58,7 +58,7 @@ export default class GameScreen extends React.Component {
                 game: newGame,
             });
         } catch (error) {
-            showWarning();
+            showWarning(error);
         }
     };
 
@@ -69,7 +69,7 @@ export default class GameScreen extends React.Component {
                 game: newGame,
             });
         } catch (error) {
-            showWarning();
+            showWarning(error);
         }
     };
 }
