@@ -16,7 +16,7 @@ function handleErrors(res) {
 }
 
 export const newEmptyGame = numberOfPlayers => {
-    var grid = [
+    const grid = [
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
@@ -73,7 +73,6 @@ export const listGames = () => {
         .then(handleErrors)
         .then(res => res.json())
         .then(res => {
-            console.debug(url);
             return res;
         });
 };

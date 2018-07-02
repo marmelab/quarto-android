@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-var pageColor = 'white';
+const pageColor = 'white';
 
 export const styles = StyleSheet.create({
     container: {

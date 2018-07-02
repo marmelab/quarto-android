@@ -1,18 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ActivityIndicator, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
-import { placePiece, selectPiece, newEmptyGame } from '../services/GameService';
+import { placePiece, selectPiece } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
 
 export default class GameScreen extends React.Component {
     state = {
-        game:
-            this.props.navigation && this.props.navigation.state
-                ? this.props.navigation.state.params.game
-                : newEmptyGame(2),
+        game: this.props.navigation.state.params.game,
+        loading: true,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -32,28 +30,51 @@ export default class GameScreen extends React.Component {
         navigation: PropTypes.object.isRequired,
     };
 
+    async componentDidMount() {
+        this.setState({ loading: true });
+        //const games = await listGames();
+        this.setState({ loading: false });
+    }
+
     render() {
-        if (this.state.game.idGame == 0) showWarning();
+        const { game, loading } = this.state;
+        if (game.idGame == 0) showWarning();
         return (
             <View style={styles.container}>
-                <Grid
-                    onPress={this.handleGridPress}
-                    grid={this.state.game.grid}
-                    readOnly={false}
-                />
-                <Text>Choose a piece for opponent</Text>
-                <RemainingList
-                    onPress={this.handleRemainingListPress}
-                    list={this.state.game.allPieces}
-                    readOnly={false}
-                />
+                {loading && <ActivityIndicator size="large" />}
+                {game.grid ? (
+                    <View style={styles.container}>
+                        <Grid
+                            onPress={this.handleGridPress}
+                            grid={game.grid}
+                            readOnly={false}
+                        />
+                        <Text>Choose a piece for opponent</Text>
+                        <RemainingList
+                            onPress={this.handleRemainingListPress}
+                            list={game.allPieces}
+                            readOnly={false}
+                        />
+                    </View>
+                ) : (
+                    loading || (
+                        <View>
+                            <Text>Game not found !</Text>
+                            <Button
+                                style={styles.button}
+                                onPress={this.backHome}
+                                title="Go back home"
+                            />
+                        </View>
+                    )
+                )}
             </View>
         );
     }
 
     handleGridPress = async (x, y) => {
         try {
-            var newGame = await placePiece(this.state.game, x, y);
+            const newGame = await placePiece(this.state.game, x, y);
             this.setState({
                 game: newGame,
             });
@@ -64,10 +85,19 @@ export default class GameScreen extends React.Component {
 
     handleRemainingListPress = async piece => {
         try {
-            var newGame = await selectPiece(this.state.game, piece);
+            const newGame = await selectPiece(this.state.game, piece);
             this.setState({
                 game: newGame,
             });
+        } catch (error) {
+            showWarning(error);
+        }
+    };
+
+    backHome = async () => {
+        try {
+            const { navigation } = this.props;
+            navigation.navigate('Home');
         } catch (error) {
             showWarning(error);
         }

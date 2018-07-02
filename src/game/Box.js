@@ -6,7 +6,7 @@ export default class Box extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
-        boxSize: PropTypes.instanceOf(StyleSheet).isRequired,
+        boxSize: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
     };
@@ -18,7 +18,6 @@ export default class Box extends Component {
     render() {
         const { enabled, boxValue, boxSize, label, onPress } = this.props;
         const pieceImageArray = initImagesRequire();
-
         return (
             <TouchableHighlight
                 accessible={true}
@@ -34,7 +33,7 @@ export default class Box extends Component {
 }
 
 const initImagesRequire = () => {
-    var pieceImageArray = [];
+    const pieceImageArray = [];
     pieceImageArray[1] = require('../../resources/images/pieceImage1.png');
     pieceImageArray[2] = require('../../resources/images/pieceImage2.png');
     pieceImageArray[3] = require('../../resources/images/pieceImage3.png');

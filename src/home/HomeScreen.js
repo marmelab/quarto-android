@@ -41,7 +41,7 @@ export default class HomeScreen extends React.Component {
 
     openNewGame = async numberOfPlayers => {
         try {
-            var game = await newGame(numberOfPlayers);
+            const game = await newGame(numberOfPlayers);
             this.openGame(game);
         } catch (error) {
             showWarning(error);
@@ -58,7 +58,7 @@ export default class HomeScreen extends React.Component {
     showGameList = async () => {
         try {
             const { navigation } = this.props;
-            var games = await listGames();
+            const games = await listGames();
             navigation.navigate('GameList', { games });
         } catch (error) {
             showWarning(error);
