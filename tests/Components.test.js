@@ -13,9 +13,29 @@ import {
     queryAllByText,
     queryByTestId,
     querySelectorAll,
+    fuzzyMatches,
+    matches,
 } from 'react-testing-library';
 
 import renderer from 'react-test-renderer';
+
+function queryAllByAccessibilityText(
+    container,
+    accessibilityLabel,
+    { exact = true, collapseWhitespace = true, trim = true } = {},
+) {
+    const matcher = exact ? matches : fuzzyMatches;
+    const matchOpts = { collapseWhitespace, trim };
+    return Array.from(container.querySelectorAll('TouchableHighlight')).filter(
+        node =>
+            matcher(
+                node.getAttribute('accessibilitylabel'),
+                node,
+                accessibilityLabel,
+                matchOpts,
+            ),
+    );
+}
 
 afterEach(cleanup);
 
@@ -28,11 +48,13 @@ describe('Components tests', () => {
         });
         const url = '/greeting'; */
 
-        const { getByTestId, container } = render(
+        const { container } = render(
             <Grid onPress={jest.fn()} grid={game.grid} readOnly={false} />,
         );
 
-        const boxes = getByTestId('gridbox', { exact: false });
+        const boxes = queryAllByAccessibilityText(container, 'gridbox', {
+            exact: false,
+        });
         expect(boxes).toHaveLength(16);
         //console.debug({ grid.childs.first });
         //console.debug({ grid });
@@ -56,13 +78,5 @@ describe('Components tests', () => {
         expect(getByTestId('ok-button')).toHaveAttribute('disabled');
         // snapshots work great with regular DOM nodes!
         expect(container.firstChild).toMatchSnapshot(); */
-    });
-
-    it('renders grid crashing when no props defined', () => {
-        function callback() {
-            const rendered = renderer.create(<Grid />).toJSON();
-            expect(rendered).toBeFalsy();
-        }
-        expect(callback).toThrow();
     });
 });

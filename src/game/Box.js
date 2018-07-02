@@ -25,17 +25,15 @@ export default class Box extends Component {
         const pieceImageArray = initImagesRequire();
 
         return (
-            <View testID="gridbox">
-                <TouchableHighlight
-                    accessible={true}
-                    accessibilityLabel={label}
-                    style={[boxSize, styles.box, enabled ? styles.enabled : '']}
-                    onPress={this.handlePress}
-                    underlayColor={clickedBoxColor}
-                >
-                    <Image style={boxSize} source={pieceImageArray[boxValue]} />
-                </TouchableHighlight>
-            </View>
+            <TouchableHighlight
+                accessible={true}
+                accessibilityLabel={label}
+                style={[boxSize, styles.box, enabled ? styles.enabled : '']}
+                onPress={this.handlePress}
+                underlayColor={clickedBoxColor}
+            >
+                <Image style={boxSize} source={pieceImageArray[boxValue]} />
+            </TouchableHighlight>
         );
     }
 }

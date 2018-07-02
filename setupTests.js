@@ -23,7 +23,7 @@ global.navigator = {
 copyProps(window, global);
 
 // react doesn't like some of the props that are set on native components (that eventually are set on DOM nodes, so suppress those warnings
-const suppressedErrors = /(React does not recognize the.*prop on a DOM element|Unknown event handler property|is using uppercase HTML|Received `true` for a non-boolean attribute `accessible`|The tag.*is unrecognized in this browser)/;
+const suppressedErrors = /(React does not recognize the.*prop on a DOM element|Unknown event handler property|is using uppercase HTML|Received `true` for a non-boolean attribute `accessible`|The tag.*is unrecognized in this browser|Use PascalCase for React components)/;
 // eslint-disable-next-line no-console
 const realConsoleError = console.error;
 // eslint-disable-next-line no-console
