@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableHighlight, StyleSheet, Image } from 'react-native';
+import { View, TouchableHighlight, StyleSheet, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Box extends Component {
@@ -25,16 +25,17 @@ export default class Box extends Component {
         const pieceImageArray = initImagesRequire();
 
         return (
-            <label>
-                {label}
+            <View testID="gridbox">
                 <TouchableHighlight
+                    accessible={true}
+                    accessibilityLabel={label}
                     style={[boxSize, styles.box, enabled ? styles.enabled : '']}
                     onPress={this.handlePress}
                     underlayColor={clickedBoxColor}
                 >
                     <Image style={boxSize} source={pieceImageArray[boxValue]} />
                 </TouchableHighlight>
-            </label>
+            </View>
         );
     }
 }

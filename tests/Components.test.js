@@ -11,7 +11,7 @@ import {
     cleanup,
     waitForElement,
     queryAllByText,
-    getByText,
+    queryByTestId,
     querySelectorAll,
 } from 'react-testing-library';
 
@@ -28,11 +28,11 @@ describe('Components tests', () => {
         });
         const url = '/greeting'; */
 
-        const { queryAllByLabelText } = render(
+        const { getByTestId, container } = render(
             <Grid onPress={jest.fn()} grid={game.grid} readOnly={false} />,
         );
 
-        const boxes = queryAllByLabelText('gridbox', { exact: false });
+        const boxes = getByTestId('gridbox', { exact: false });
         expect(boxes).toHaveLength(16);
         //console.debug({ grid.childs.first });
         //console.debug({ grid });
