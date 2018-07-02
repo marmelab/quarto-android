@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, StyleSheet, Image } from 'react-native';
+import { TouchableHighlight, StyleSheet, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Box extends Component {
