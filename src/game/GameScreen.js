@@ -18,11 +18,10 @@ export default class GameScreen extends React.Component {
         loading: true,
     };
 
-    static navigationOptions = () => {
-        const idGame =
-            this.state && this.state.game && this.state.game.idGame
-                ? this.state.game.idGame
-                : '0';
+    static navigationOptions = ({ navigation }) => {
+        const idGame = navigation.state.params.idGame
+            ? navigation.state.params.idGame
+            : '(...)';
         const numberOfPlayers = 2;
         let title = `Quarto game `;
         if (idGame) {
@@ -47,13 +46,12 @@ export default class GameScreen extends React.Component {
         } else if (numberPlayers) {
             game = await newGame(numberPlayers);
         }
-        //const games = await listGames();
         this.setState({ game, loading: false });
+        this.props.navigation.setParams({ idGame: game.idGame });
     }
 
     render() {
         const { game, loading } = this.state;
-        if (game.idGame == 0) showWarning();
         return (
             <View style={styles.container}>
                 {loading && <ActivityIndicator size="large" />}
