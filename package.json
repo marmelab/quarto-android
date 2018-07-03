@@ -38,7 +38,7 @@
     "preset": "jest-expo",
     "setupFiles": [
       "./setupTests.js"
-  ]
+    ]
   },
   "dependencies": {
     "expo": "27.0.2",

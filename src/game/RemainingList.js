@@ -9,6 +9,7 @@ export default class RemainingList extends Component {
         onPress: PropTypes.func.isRequired,
         list: PropTypes.object.isRequired,
         readOnly: PropTypes.bool,
+        selectedPiece: PropTypes.number,
     };
 
     static defaultProps = {
@@ -16,7 +17,7 @@ export default class RemainingList extends Component {
     };
 
     render() {
-        const { list, readOnly, onPress } = this.props;
+        const { list, readOnly, onPress, selectedPiece } = this.props;
         return (
             <View style={styles.row}>
                 {Object.keys(list).map(pieceKey => {
@@ -27,6 +28,7 @@ export default class RemainingList extends Component {
                                 boxValue={String(list[pieceKey].id)}
                                 enabled={!readOnly}
                                 onPress={onPress}
+                                selected={selectedPiece == list[pieceKey].id}
                             />
                         );
                     }

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Text, View, ActivityIndicator, Button } from 'react-native';
+import {
+    Text,
+    View,
+    ActivityIndicator,
+    Button,
+    StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import {
@@ -7,6 +13,7 @@ import {
     newGame,
     placePiece,
     selectPiece,
+    getActionText,
 } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
@@ -15,7 +22,6 @@ import RemainingList from './RemainingList';
 export default class GameScreen extends React.Component {
     state = {
         game: {},
-        loading: true,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -30,35 +36,55 @@ export default class GameScreen extends React.Component {
         if (numberOfPlayers) {
             title += ` (${numberOfPlayers} players)`;
         }
-        return { title };
+        return {
+            headerTitle: (
+                <View style={styles.tabContainer}>
+                    <Text style={styles.tabTitle}>{title}</Text>
+                    {navigation.state.params.loading && (
+                        <ActivityIndicator size="large" />
+                    )}
+                </View>
+            ),
+        };
     };
 
     static propTypes = {
         navigation: PropTypes.object.isRequired,
+        loading: PropTypes.bool,
     };
 
     async componentDidMount() {
-        const {
-            idGame,
-            numberPlayers,
-            register,
-        } = this.props.navigation.state.params;
-        this.setState({ loading: true });
+        const { navigation } = this.props;
+        const { idGame, numberPlayers, register } = navigation.state.params;
+
+        navigation.setParams({ loading: true });
         let game = {};
         if (idGame) {
             game = await getGame(idGame, register);
         } else if (numberPlayers) {
             game = await newGame(numberPlayers);
         }
-        this.setState({ game, loading: false });
-        this.props.navigation.setParams({ idGame: game.idGame });
+        this.setState({ game });
+        navigation.setParams({ loading: false });
+        navigation.setParams({ idGame: game.idGame });
+
+        this.interval = setInterval(async () => {
+            navigation.setParams({ loading: true });
+            game = await getGame(this.state.game.idGame, false);
+            this.setState({ game });
+            navigation.setParams({ loading: false });
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     render() {
-        const { game, loading } = this.state;
+        const { game } = this.state;
+        const { loading } = this.props;
         return (
             <View style={styles.container}>
-                {loading && <ActivityIndicator size="large" />}
                 {game.grid ? (
                     <View style={styles.container}>
                         <Grid
@@ -66,10 +92,18 @@ export default class GameScreen extends React.Component {
                             grid={game.grid}
                             readOnly={game.locked}
                         />
-                        <Text>Choose a piece for opponent</Text>
+                        {game.locked &&
+                            !game.watch_only && (
+                                <ActivityIndicator
+                                    style={gamestyle.waiting}
+                                    size="large"
+                                />
+                            )}
+                        <Text>{getActionText(game)}</Text>
                         <RemainingList
                             onPress={this.handleRemainingListPress}
                             list={game.allPieces}
+                            selectedPiece={game.selectedPiece}
                             readOnly={game.locked}
                         />
                     </View>
@@ -120,3 +154,14 @@ export default class GameScreen extends React.Component {
         }
     };
 }
+
+export const gamestyle = StyleSheet.create({
+    waiting: {
+        position: 'absolute',
+        flex: 0.5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+    },
+});

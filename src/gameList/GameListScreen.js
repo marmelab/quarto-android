@@ -15,8 +15,6 @@ import { showWarning } from '../services/WarningService';
 export default class GameListScreen extends React.Component {
     state = {
         games: [],
-        loading: true,
-        listType: this.props.navigation.state.params.listType,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -35,7 +33,16 @@ export default class GameListScreen extends React.Component {
                 title += 'Watch';
         }
         title += ' a game';
-        return { title };
+        return {
+            headerTitle: (
+                <View style={styles.tabContainer}>
+                    <Text style={styles.tabTitle}>{title}</Text>
+                    {navigation.state.params.loading && (
+                        <ActivityIndicator size="large" />
+                    )}
+                </View>
+            ),
+        };
     };
 
     static propTypes = {
@@ -43,10 +50,21 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
-        const { listType } = this.state;
-        this.setState({ loading: true });
+        const { navigation } = this.props;
+        const { listType } = navigation.state.params;
         const games = await listGames(listType);
-        this.setState({ games, loading: false });
+        this.setState({ games });
+        this.interval = setInterval(async () => {
+            navigation.setParams({ loading: true });
+            this.setState({ listType: listType });
+            const games = await listGames(listType);
+            this.setState({ games });
+            navigation.setParams({ loading: false });
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     render() {
