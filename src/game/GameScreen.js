@@ -38,11 +38,15 @@ export default class GameScreen extends React.Component {
     };
 
     async componentDidMount() {
-        const { idGame, numberPlayers } = this.props.navigation.state.params;
+        const {
+            idGame,
+            numberPlayers,
+            register,
+        } = this.props.navigation.state.params;
         this.setState({ loading: true });
         let game = {};
         if (idGame) {
-            game = await getGame(idGame);
+            game = await getGame(idGame, register);
         } else if (numberPlayers) {
             game = await newGame(numberPlayers);
         }
@@ -60,13 +64,13 @@ export default class GameScreen extends React.Component {
                         <Grid
                             onPress={this.handleGridPress}
                             grid={game.grid}
-                            readOnly={false}
+                            readOnly={game.locked}
                         />
                         <Text>Choose a piece for opponent</Text>
                         <RemainingList
                             onPress={this.handleRemainingListPress}
                             list={game.allPieces}
-                            readOnly={false}
+                            readOnly={game.locked}
                         />
                     </View>
                 ) : (

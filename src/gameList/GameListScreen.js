@@ -18,8 +18,23 @@ export default class GameListScreen extends React.Component {
         loading: true,
     };
 
-    static navigationOptions = {
-        title: 'Join a game',
+    static navigationOptions = ({ navigation }) => {
+        const listType = navigation.state.params.listType
+            ? navigation.state.params.listType
+            : 'Play';
+        let title = '';
+        switch (listType) {
+            case 'current':
+                title += 'Continue';
+                break;
+            case 'opened':
+                title += 'Join';
+                break;
+            case 'onlywatch':
+                title += 'Watch';
+        }
+        title += ' a game';
+        return { title };
     };
 
     static propTypes = {
@@ -27,16 +42,17 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
+        const { listType } = this.props.navigation.state.params;
         this.setState({ loading: true });
-        const games = await listGames();
+        this.setState({ listType: listType });
+        const games = await listGames(listType);
         this.setState({ games, loading: false });
     }
 
     render() {
-        const { games, loading } = this.state;
+        const { games, loading, listType } = this.state;
         return (
             <View style={styles.container}>
-                <Text>Quarto Android</Text>
                 {loading && <ActivityIndicator size="large" />}
                 {games.length ? (
                     <ScrollView style={localStyles.list}>
@@ -49,7 +65,10 @@ export default class GameListScreen extends React.Component {
                                     <Button
                                         style={styles.button}
                                         onPress={() =>
-                                            this.openGame(game.idGame)
+                                            this.openGame(
+                                                game.idGame,
+                                                listType == 'opened',
+                                            )
                                         }
                                         title={'Game #' + game.idGame}
                                     />
@@ -73,11 +92,12 @@ export default class GameListScreen extends React.Component {
         );
     }
 
-    openGame = async idGame => {
+    openGame = async (idGame, register) => {
         const { navigation } = this.props;
         try {
             navigation.navigate('Game', {
                 idGame,
+                register,
             });
         } catch (error) {
             showWarning();

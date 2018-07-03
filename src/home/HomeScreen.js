@@ -22,8 +22,22 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         style={styles.button}
-                        onPress={this.showGameList}
-                        title="Show existing games"
+                        onPress={() => this.showGameList('current')}
+                        title="My games"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
+                        onPress={() => this.showGameList('opened')}
+                        title="Join opened games"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
+                        onPress={() => this.showGameList('onlywatch')}
+                        title="Only watch a game"
                     />
                 </View>
             </View>
@@ -37,10 +51,10 @@ export default class HomeScreen extends React.Component {
         });
     };
 
-    showGameList = async () => {
+    showGameList = async listType => {
         try {
             const { navigation } = this.props;
-            navigation.navigate('GameList');
+            navigation.navigate('GameList', { listType });
         } catch (error) {
             showWarning(error);
         }

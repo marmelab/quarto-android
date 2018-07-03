@@ -24,7 +24,7 @@ export default class Box extends Component {
                 accessibilityLabel={label}
                 style={[boxSize, styles.box, enabled ? styles.enabled : '']}
                 onPress={onPress}
-                underlayColor={clickedBoxColor}
+                underlayColor={enabled ? clickedBoxColor : normalBoxColor}
             >
                 <Image style={boxSize} source={pieceImageArray[boxValue]} />
             </TouchableHighlight>
