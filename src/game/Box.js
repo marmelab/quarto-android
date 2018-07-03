@@ -74,6 +74,7 @@ const selectedBoxColor = '#80ffbf';
 
 const styles = StyleSheet.create({
     box: {
+        opacity: 0.6,
         alignItems: 'center',
         backgroundColor: normalBoxColor,
         display: 'flex',
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     enabled: {
+        opacity: 1,
         elevation: 3,
     },
     selected: {

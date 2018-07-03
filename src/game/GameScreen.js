@@ -1,5 +1,11 @@
 import React from 'react';
-import { Text, View, ActivityIndicator, Button } from 'react-native';
+import {
+    Text,
+    View,
+    ActivityIndicator,
+    Button,
+    StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import {
@@ -63,6 +69,13 @@ class GameScreen extends React.Component {
                             grid={game.grid}
                             readOnly={game.locked}
                         />
+                        {game.locked &&
+                            !game.watch_only && (
+                                <ActivityIndicator
+                                    style={gamestyle.waiting}
+                                    size="large"
+                                />
+                            )}
                         <Text>{getActionText(game)}</Text>
                         <RemainingList
                             onPress={this.handleRemainingListPress}
@@ -144,3 +157,14 @@ EnhancedGameScreen.navigationOptions = ({ navigation }) => {
 };
 
 export default EnhancedGameScreen;
+
+export const gamestyle = StyleSheet.create({
+    waiting: {
+        position: 'absolute',
+        flex: 0.5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+    },
+});
