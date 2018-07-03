@@ -124,3 +124,15 @@ export const selectPiece = async (game, piece) => {
             return res;
         });
 };
+
+export const getActionText = game => {
+    if (!game.locked) {
+        if (game.selectedPiece > 0) {
+            return 'Place your piece on the board';
+        }
+        return 'Choose a piece for your opponent';
+    } else if (game.watch_only) {
+        return '(Watch only) Admire competitors talent';
+    }
+    return 'Meditate while waiting for your turn';
+};

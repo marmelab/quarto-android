@@ -7,6 +7,7 @@ import {
     newGame,
     placePiece,
     selectPiece,
+    getActionText,
 } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
@@ -30,7 +31,16 @@ export default class GameScreen extends React.Component {
         if (numberOfPlayers) {
             title += ` (${numberOfPlayers} players)`;
         }
-        return { title };
+        return {
+            headerTitle: (
+                <View>
+                    <Text>{title}</Text>
+                    {navigation.state.params.loading && (
+                        <ActivityIndicator size="large" />
+                    )}
+                </View>
+            ),
+        };
     };
 
     static propTypes = {
@@ -52,13 +62,24 @@ export default class GameScreen extends React.Component {
         }
         this.setState({ game, loading: false });
         this.props.navigation.setParams({ idGame: game.idGame });
+
+        this.interval = setInterval(async () => {
+            this.setState({ loading: true });
+            this.props.navigation.setParams({ loading: this.state.loading });
+            game = await getGame(this.state.game.idGame, false);
+            this.setState({ game, loading: false });
+            this.props.navigation.setParams({ loading: this.state.loading });
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     render() {
         const { game, loading } = this.state;
         return (
             <View style={styles.container}>
-                {loading && <ActivityIndicator size="large" />}
                 {game.grid ? (
                     <View style={styles.container}>
                         <Grid
@@ -66,10 +87,11 @@ export default class GameScreen extends React.Component {
                             grid={game.grid}
                             readOnly={game.locked}
                         />
-                        <Text>Choose a piece for opponent</Text>
+                        <Text>{getActionText(game)}</Text>
                         <RemainingList
                             onPress={this.handleRemainingListPress}
                             list={game.allPieces}
+                            selectedPiece={game.selectedPiece}
                             readOnly={game.locked}
                         />
                     </View>
