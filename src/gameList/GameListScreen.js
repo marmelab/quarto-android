@@ -11,9 +11,8 @@ import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
-import { withState } from 'recompose';
 
-class GameListScreen extends React.Component {
+export default class GameListScreen extends React.Component {
     state = {
         games: [],
     };
@@ -34,7 +33,16 @@ class GameListScreen extends React.Component {
                 title += 'Watch';
         }
         title += ' a game';
-        return { title };
+        return {
+            headerTitle: (
+                <View style={styles.tabContainer}>
+                    <Text style={styles.tabTitle}>{title}</Text>
+                    {navigation.state.params.loading && (
+                        <ActivityIndicator size="large" />
+                    )}
+                </View>
+            ),
+        };
     };
 
     static propTypes = {
@@ -129,36 +137,3 @@ const localStyles = StyleSheet.create({
         width: '100%',
     },
 });
-
-const EnhancedGameListScreen = withState('loading', 'setLoading', true)(
-    GameListScreen,
-);
-EnhancedGameListScreen.navigationOptions = ({ navigation }) => {
-    const listType = navigation.state.params.listType
-        ? navigation.state.params.listType
-        : 'Play';
-    let title = '';
-    switch (listType) {
-        case 'current':
-            title += 'Continue';
-            break;
-        case 'opened':
-            title += 'Join';
-            break;
-        case 'onlywatch':
-            title += 'Watch';
-    }
-    title += ' a game';
-    return {
-        headerTitle: (
-            <View style={styles.tabContainer}>
-                <Text style={styles.tabTitle}>{title}</Text>
-                {navigation.state.params.loading && (
-                    <ActivityIndicator size="large" />
-                )}
-            </View>
-        ),
-    };
-};
-
-export default EnhancedGameListScreen;

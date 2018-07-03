@@ -18,11 +18,34 @@ import {
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
-import { withState } from 'recompose';
 
-class GameScreen extends React.Component {
+export default class GameScreen extends React.Component {
     state = {
         game: {},
+    };
+
+    static navigationOptions = ({ navigation }) => {
+        const idGame = navigation.state.params.idGame
+            ? navigation.state.params.idGame
+            : '(...)';
+        const numberOfPlayers = 2;
+        let title = `Quarto game `;
+        if (idGame) {
+            title += ` #${idGame}`;
+        }
+        if (numberOfPlayers) {
+            title += ` (${numberOfPlayers} players)`;
+        }
+        return {
+            headerTitle: (
+                <View style={styles.tabContainer}>
+                    <Text style={styles.tabTitle}>{title}</Text>
+                    {navigation.state.params.loading && (
+                        <ActivityIndicator size="large" />
+                    )}
+                </View>
+            ),
+        };
     };
 
     static propTypes = {
@@ -131,32 +154,6 @@ class GameScreen extends React.Component {
         }
     };
 }
-const EnhancedGameScreen = withState('loading', 'setLoading', true)(GameScreen);
-EnhancedGameScreen.navigationOptions = ({ navigation }) => {
-    const idGame = navigation.state.params.idGame
-        ? navigation.state.params.idGame
-        : '(...)';
-    const numberOfPlayers = 2;
-    let title = `Quarto game `;
-    if (idGame) {
-        title += ` #${idGame}`;
-    }
-    if (numberOfPlayers) {
-        title += ` (${numberOfPlayers} players)`;
-    }
-    return {
-        headerTitle: (
-            <View style={styles.tabContainer}>
-                <Text style={styles.tabTitle}>{title}</Text>
-                {navigation.state.params.loading && (
-                    <ActivityIndicator size="large" />
-                )}
-            </View>
-        ),
-    };
-};
-
-export default EnhancedGameScreen;
 
 export const gamestyle = StyleSheet.create({
     waiting: {
