@@ -15,6 +15,7 @@ export const storeGameToken = async (idGame, token) => {
 
 export const retrieveGameTokenList = async () => {
     try {
+        //await AsyncStorage.clear();
         const value = await AsyncStorage.getItem('@Quarto:gameTokens');
         if (value !== null) {
             return JSON.parse(value);
@@ -32,6 +33,8 @@ export const retrieveGameToken = async idGame => {
 
 const generateStorageTokens = async (idGame, token) => {
     const tokenList = await retrieveGameTokenList();
-    tokenList[idGame] = token;
+    if (idGame && token) {
+        tokenList[idGame] = token;
+    }
     return tokenList;
 };

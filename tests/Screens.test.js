@@ -35,8 +35,17 @@ describe('Screens tests', () => {
         ).toBeTruthy();
     });
 
-    it('renders gameList without crashing', () => {
-        const rendered = renderer.create(<GameListScreen />).toJSON();
-        expect(rendered).toBeTruthy();
+    it('renders an empty game list without crashing', () => {
+        const navigation = {
+            navigate: jest.fn(),
+            state: {
+                params: {
+                    listType: 'current"',
+                },
+            },
+        };
+        expect(
+            renderer.create(<GameListScreen navigation={navigation} />),
+        ).toBeTruthy();
     });
 });

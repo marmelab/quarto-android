@@ -1,5 +1,9 @@
 import config from '../config.dist';
-import { storeGameToken, retrieveGameTokenList } from './StorageService';
+import {
+    storeGameToken,
+    retrieveGameTokenList,
+    retrieveGameToken,
+} from './StorageService';
 
 const HEADER_JSON = {
     Accept: 'application/json',
@@ -47,8 +51,33 @@ export const newGame = () => {
         });
 };
 
-export const getGame = idGame => {
-    const url = `${BASE_URL}/${idGame}`;
+export const getGame = async (idGame, register) => {
+    let url = `${BASE_URL}/${idGame}`;
+    if (register) {
+        url += '?register=1';
+    } else {
+        let token = await retrieveGameToken(idGame);
+        url += '?token=' + token;
+    }
+    const method = 'GET';
+    const headers = Object.assign({}, HEADER_JSON);
+    return fetch(url, {
+        method,
+        headers,
+    })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(res => {
+            storeGameToken(res.idGame, res.tokenPlayerTwo);
+            return res;
+        });
+};
+
+export const listGames = async listType => {
+    const tokenList = await retrieveGameTokenList();
+    const url = `${BASE_URL}/${listType}list?tokenList=${JSON.stringify(
+        tokenList,
+    )}`;
     const method = 'GET';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
@@ -62,23 +91,10 @@ export const getGame = idGame => {
         });
 };
 
-export const listGames = () => {
-    const url = `${BASE_URL}/list?${retrieveGameTokenList()}`;
-    const method = 'GET';
-    const headers = Object.assign({}, HEADER_JSON);
-    return fetch(url, {
-        method,
-        headers,
-    })
-        .then(handleErrors)
-        .then(res => res.json())
-        .then(res => {
-            return res;
-        });
-};
-
-export const placePiece = (game, x, y) => {
-    const url = `${BASE_URL}/${game.idGame}/place/${x}/${y}`;
+export const placePiece = async (game, x, y) => {
+    let url = `${BASE_URL}/${game.idGame}/place/${x}/${y}`;
+    let token = await retrieveGameToken(game.idGame);
+    url += '?token=' + token;
     const method = 'PUT';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
@@ -92,8 +108,10 @@ export const placePiece = (game, x, y) => {
         });
 };
 
-export const selectPiece = (game, piece) => {
-    const url = `${BASE_URL}/${game.idGame}/select/${piece}`;
+export const selectPiece = async (game, piece) => {
+    let url = `${BASE_URL}/${game.idGame}/select/${piece}`;
+    let token = await retrieveGameToken(game.idGame);
+    url += '?token=' + token;
     const method = 'PUT';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
