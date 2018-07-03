@@ -16,6 +16,7 @@ export default class GameListScreen extends React.Component {
     state = {
         games: [],
         loading: true,
+        listType: this.props.navigation.state.params.listType,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -42,9 +43,8 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
-        const { listType } = this.props.navigation.state.params;
+        const { listType } = this.state;
         this.setState({ loading: true });
-        this.setState({ listType: listType });
         const games = await listGames(listType);
         this.setState({ games, loading: false });
     }
