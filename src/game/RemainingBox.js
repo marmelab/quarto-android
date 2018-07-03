@@ -8,6 +8,7 @@ export default class RemainingBox extends Component {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
+        selected: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -22,7 +23,7 @@ export default class RemainingBox extends Component {
     };
 
     render() {
-        const { boxValue, enabled } = this.props;
+        const { boxValue, enabled, selected } = this.props;
 
         return (
             <Box
@@ -31,6 +32,7 @@ export default class RemainingBox extends Component {
                 boxValue={boxValue}
                 label={'remainingbox'}
                 onPress={this.handlePress}
+                selected={selected}
             />
         );
     }

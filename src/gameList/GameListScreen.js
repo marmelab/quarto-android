@@ -43,10 +43,16 @@ export default class GameListScreen extends React.Component {
 
     async componentDidMount() {
         const { listType } = this.props.navigation.state.params;
-        this.setState({ loading: true });
-        this.setState({ listType: listType });
-        const games = await listGames(listType);
-        this.setState({ games, loading: false });
+        this.interval = setInterval(async () => {
+            this.setState({ loading: true });
+            this.setState({ listType: listType });
+            const games = await listGames(listType);
+            this.setState({ games, loading: false });
+        }, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     render() {

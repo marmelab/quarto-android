@@ -9,6 +9,7 @@ export default class Box extends Component {
         boxSize: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
+        selected: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -16,14 +17,26 @@ export default class Box extends Component {
     };
 
     render() {
-        const { enabled, boxValue, boxSize, label, onPress } = this.props;
+        const {
+            enabled,
+            boxValue,
+            boxSize,
+            label,
+            onPress,
+            selected,
+        } = this.props;
         const pieceImageArray = initImagesRequire();
         return (
             <TouchableHighlight
                 accessible={true}
                 accessibilityLabel={label}
-                style={[boxSize, styles.box, enabled ? styles.enabled : '']}
-                onPress={onPress}
+                style={[
+                    boxSize,
+                    styles.box,
+                    enabled ? styles.enabled : '',
+                    selected ? styles.selected : '',
+                ]}
+                onPress={enabled ? onPress : null}
                 underlayColor={enabled ? clickedBoxColor : normalBoxColor}
             >
                 <Image style={boxSize} source={pieceImageArray[boxValue]} />
@@ -56,7 +69,8 @@ const initImagesRequire = () => {
 };
 
 const normalBoxColor = 'lightblue';
-const clickedBoxColor = 'green';
+const clickedBoxColor = '#6699ff';
+const selectedBoxColor = '#80ffbf';
 
 const styles = StyleSheet.create({
     box: {
@@ -68,5 +82,8 @@ const styles = StyleSheet.create({
     },
     enabled: {
         elevation: 3,
+    },
+    selected: {
+        backgroundColor: selectedBoxColor,
     },
 });

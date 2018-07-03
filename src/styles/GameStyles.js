@@ -19,4 +19,8 @@ export const styles = StyleSheet.create({
         width: '80%',
         margin: 4,
     },
+    loader: {
+        //position: 'absolute',
+        //paddingTop: 200,
+    },
 });
