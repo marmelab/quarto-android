@@ -12,63 +12,38 @@ import {
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
+import { withState } from 'recompose';
 
-export default class GameScreen extends React.Component {
+class GameScreen extends React.Component {
     state = {
         game: {},
-        loading: true,
-    };
-
-    static navigationOptions = ({ navigation }) => {
-        const idGame = navigation.state.params.idGame
-            ? navigation.state.params.idGame
-            : '(...)';
-        const numberOfPlayers = 2;
-        let title = `Quarto game `;
-        if (idGame) {
-            title += ` #${idGame}`;
-        }
-        if (numberOfPlayers) {
-            title += ` (${numberOfPlayers} players)`;
-        }
-        return {
-            headerTitle: (
-                <View>
-                    <Text>{title}</Text>
-                    {navigation.state.params.loading && (
-                        <ActivityIndicator size="large" />
-                    )}
-                </View>
-            ),
-        };
     };
 
     static propTypes = {
         navigation: PropTypes.object.isRequired,
+        loading: PropTypes.bool,
     };
 
     async componentDidMount() {
-        const {
-            idGame,
-            numberPlayers,
-            register,
-        } = this.props.navigation.state.params;
-        this.setState({ loading: true });
+        const { navigation } = this.props;
+        const { idGame, numberPlayers, register } = navigation.state.params;
+
+        navigation.setParams({ loading: true });
         let game = {};
         if (idGame) {
             game = await getGame(idGame, register);
         } else if (numberPlayers) {
             game = await newGame(numberPlayers);
         }
-        this.setState({ game, loading: false });
-        this.props.navigation.setParams({ idGame: game.idGame });
+        this.setState({ game });
+        navigation.setParams({ loading: false });
+        navigation.setParams({ idGame: game.idGame });
 
         this.interval = setInterval(async () => {
-            this.setState({ loading: true });
-            this.props.navigation.setParams({ loading: this.state.loading });
+            navigation.setParams({ loading: true });
             game = await getGame(this.state.game.idGame, false);
-            this.setState({ game, loading: false });
-            this.props.navigation.setParams({ loading: this.state.loading });
+            this.setState({ game });
+            navigation.setParams({ loading: false });
         }, 3000);
     }
 
@@ -77,7 +52,8 @@ export default class GameScreen extends React.Component {
     }
 
     render() {
-        const { game, loading } = this.state;
+        const { game } = this.state;
+        const { loading } = this.props;
         return (
             <View style={styles.container}>
                 {game.grid ? (
@@ -142,3 +118,29 @@ export default class GameScreen extends React.Component {
         }
     };
 }
+const EnhancedGameScreen = withState('loading', 'setLoading', true)(GameScreen);
+EnhancedGameScreen.navigationOptions = ({ navigation }) => {
+    const idGame = navigation.state.params.idGame
+        ? navigation.state.params.idGame
+        : '(...)';
+    const numberOfPlayers = 2;
+    let title = `Quarto game `;
+    if (idGame) {
+        title += ` #${idGame}`;
+    }
+    if (numberOfPlayers) {
+        title += ` (${numberOfPlayers} players)`;
+    }
+    return {
+        headerTitle: (
+            <View style={styles.tabContainer}>
+                <Text style={styles.tabTitle}>{title}</Text>
+                {navigation.state.params.loading && (
+                    <ActivityIndicator size="large" />
+                )}
+            </View>
+        ),
+    };
+};
+
+export default EnhancedGameScreen;

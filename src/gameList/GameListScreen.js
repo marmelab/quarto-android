@@ -11,11 +11,11 @@ import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
+import { withState } from 'recompose';
 
-export default class GameListScreen extends React.Component {
+class GameListScreen extends React.Component {
     state = {
         games: [],
-        loading: true,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -42,12 +42,16 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
-        const { listType } = this.props.navigation.state.params;
+        const { navigation } = this.props;
+        const { listType } = navigation.state.params;
+        const games = await listGames(listType);
+        this.setState({ games });
         this.interval = setInterval(async () => {
-            this.setState({ loading: true });
+            navigation.setParams({ loading: true });
             this.setState({ listType: listType });
             const games = await listGames(listType);
-            this.setState({ games, loading: false });
+            this.setState({ games });
+            navigation.setParams({ loading: false });
         }, 3000);
     }
 
@@ -125,3 +129,36 @@ const localStyles = StyleSheet.create({
         width: '100%',
     },
 });
+
+const EnhancedGameListScreen = withState('loading', 'setLoading', true)(
+    GameListScreen,
+);
+EnhancedGameListScreen.navigationOptions = ({ navigation }) => {
+    const listType = navigation.state.params.listType
+        ? navigation.state.params.listType
+        : 'Play';
+    let title = '';
+    switch (listType) {
+        case 'current':
+            title += 'Continue';
+            break;
+        case 'opened':
+            title += 'Join';
+            break;
+        case 'onlywatch':
+            title += 'Watch';
+    }
+    title += ' a game';
+    return {
+        headerTitle: (
+            <View style={styles.tabContainer}>
+                <Text style={styles.tabTitle}>{title}</Text>
+                {navigation.state.params.loading && (
+                    <ActivityIndicator size="large" />
+                )}
+            </View>
+        ),
+    };
+};
+
+export default EnhancedGameListScreen;

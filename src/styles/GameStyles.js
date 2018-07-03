@@ -19,8 +19,18 @@ export const styles = StyleSheet.create({
         width: '80%',
         margin: 4,
     },
-    loader: {
-        //position: 'absolute',
-        //paddingTop: 200,
+    tabContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        justifyContent: 'space-between',
+        width: '100%',
+        height: '100%',
+    },
+    tabTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        lineHeight: 50,
+        height: '100%',
     },
 });
