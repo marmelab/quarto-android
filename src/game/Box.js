@@ -10,6 +10,7 @@ export default class Box extends Component {
         label: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
         selected: PropTypes.bool,
+        winningBox: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -24,6 +25,7 @@ export default class Box extends Component {
             label,
             onPress,
             selected,
+            winningBox,
         } = this.props;
         const pieceImageArray = initImagesRequire();
         return (
@@ -33,6 +35,7 @@ export default class Box extends Component {
                 style={[
                     boxSize,
                     styles.box,
+                    winningBox ? styles.winning : '',
                     enabled ? styles.enabled : '',
                     selected ? styles.selected : '',
                 ]}
@@ -69,6 +72,7 @@ const initImagesRequire = () => {
 };
 
 const normalBoxColor = 'lightblue';
+const winningBoxColor = 'green';
 const clickedBoxColor = '#6699ff';
 const selectedBoxColor = '#80ffbf';
 
@@ -81,9 +85,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 4,
     },
+    winning: {
+        backgroundColor: winningBoxColor,
+    },
     enabled: {
         opacity: 1,
-        elevation: 3,
+        elevation: 1,
     },
     selected: {
         backgroundColor: selectedBoxColor,

@@ -126,6 +126,9 @@ export const selectPiece = async (game, piece) => {
 };
 
 export const getActionText = game => {
+    if (game.closed) {
+        return 'The game is over !!';
+    }
     if (!game.locked) {
         if (game.selectedPiece > 0) {
             return 'Place your piece on the board';

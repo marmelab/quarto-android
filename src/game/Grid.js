@@ -8,6 +8,7 @@ export default class Grid extends Component {
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         grid: PropTypes.array.isRequired,
+        winningLine: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
     };
 
@@ -16,7 +17,7 @@ export default class Grid extends Component {
     };
 
     render() {
-        const { grid, readOnly, onPress } = this.props;
+        const { grid, readOnly, onPress, winningLine } = this.props;
 
         return (
             <View style={styles.column}>
@@ -32,6 +33,9 @@ export default class Grid extends Component {
                                         y={rowKey}
                                         enabled={!readOnly}
                                         onPress={onPress}
+                                        winningBox={
+                                            winningLine.indexOf(boxValue) >= 0
+                                        }
                                     />
                                 );
                             })}

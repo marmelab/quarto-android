@@ -28,7 +28,12 @@ describe('Components tests', () => {
         const game = newEmptyGame();
 
         const { container } = render(
-            <Grid onPress={jest.fn()} grid={game.grid} readOnly={false} />,
+            <Grid
+                onPress={jest.fn()}
+                grid={game.grid}
+                winningLine={[]}
+                readOnly={false}
+            />,
         );
 
         const boxes = queryAllByAccessibilityText(container, 'gridbox', {

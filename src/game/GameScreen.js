@@ -90,15 +90,36 @@ export default class GameScreen extends React.Component {
                         <Grid
                             onPress={this.handleGridPress}
                             grid={game.grid}
+                            winningLine={game.winningLine}
                             readOnly={game.locked}
                         />
                         {game.locked &&
+                            !game.closed &&
                             !game.watch_only && (
                                 <ActivityIndicator
                                     style={gamestyle.waiting}
                                     size="large"
                                 />
                             )}
+                        {game.closed && (
+                            <View style={gamestyle.closed}>
+                                <View
+                                    style={[
+                                        gamestyle.opacity,
+                                        gamestyle.closed,
+                                        game.you_won
+                                            ? gamestyle.winner
+                                            : gamestyle.looser,
+                                    ]}
+                                />
+                                <Text style={gamestyle.textClosed}>
+                                    {createGameEndText(
+                                        game.you_won,
+                                        game.winner_id,
+                                    )}
+                                </Text>
+                            </View>
+                        )}
                         <Text>{getActionText(game)}</Text>
                         <RemainingList
                             onPress={this.handleRemainingListPress}
@@ -155,13 +176,60 @@ export default class GameScreen extends React.Component {
     };
 }
 
+const createGameEndText = (youWon, winnerId) => {
+    if (youWon) {
+        return 'Awesome !!!  You won !!!!';
+    }
+    if (winnerId == 0) {
+        return "It's a draw";
+    }
+    return 'Player ' + String(winnerId) + ' won !';
+};
+
+const winColor = 'green';
+const looseColor = 'red';
+
 export const gamestyle = StyleSheet.create({
     waiting: {
         position: 'absolute',
-        flex: 0.5,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
         height: '100%',
+        elevation: 2,
+    },
+    opacity: {
+        opacity: 0.3,
+    },
+    closed: {
+        position: 'absolute',
+        flex: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        elevation: 4,
+    },
+    textClosed: {
+        position: 'absolute',
+        flex: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        width: '100%',
+        height: '100%',
+        fontSize: 30,
+        fontWeight: 'bold',
+        elevation: 4,
+    },
+    winner: {
+        backgroundColor: winColor,
+        elevation: 3,
+    },
+    looser: {
+        backgroundColor: looseColor,
+        elevation: 3,
     },
 });
