@@ -10,6 +10,7 @@ export default class Grid extends Component {
         grid: PropTypes.array.isRequired,
         winningLine: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
+        goodPlaces: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -17,7 +18,7 @@ export default class Grid extends Component {
     };
 
     render() {
-        const { grid, readOnly, onPress, winningLine } = this.props;
+        const { grid, readOnly, onPress, winningLine, goodPlaces } = this.props;
 
         return (
             <View style={styles.column}>
@@ -36,6 +37,11 @@ export default class Grid extends Component {
                                         winningBox={
                                             winningLine.indexOf(boxValue) >= 0
                                         }
+                                        goodPlace={this.positionInclude(
+                                            goodPlaces,
+                                            boxKey,
+                                            rowKey,
+                                        )}
                                     />
                                 );
                             })}
@@ -45,6 +51,12 @@ export default class Grid extends Component {
             </View>
         );
     }
+
+    positionInclude = (placesList, x, y) => {
+        return placesList.some(place => {
+            return place[0] == y && place[1] == x;
+        });
+    };
 }
 
 const styles = StyleSheet.create({

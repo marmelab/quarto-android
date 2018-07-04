@@ -111,6 +111,7 @@ export default class GameScreen extends React.Component {
                         <Grid
                             onPress={this.handleGridPress}
                             grid={game.grid}
+                            goodPlaces={game.winningPlaces}
                             winningLine={game.winningLine}
                             readOnly={game.locked}
                         />
@@ -146,6 +147,12 @@ export default class GameScreen extends React.Component {
                             onPress={this.handleRemainingListPress}
                             list={game.allPieces}
                             selectedPiece={game.selectedPiece}
+                            badPieces={
+                                game.winningLine.length == 0 &&
+                                game.selectedPiece == 0
+                                    ? game.winningPieces
+                                    : []
+                            }
                             readOnly={game.locked}
                         />
                     </View>

@@ -11,6 +11,8 @@ export default class Box extends Component {
         enabled: PropTypes.bool,
         selected: PropTypes.bool,
         winningBox: PropTypes.bool,
+        badBox: PropTypes.bool,
+        goodBox: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -26,6 +28,8 @@ export default class Box extends Component {
             onPress,
             selected,
             winningBox,
+            badBox,
+            goodBox,
         } = this.props;
         const pieceImageArray = initImagesRequire();
         return (
@@ -35,7 +39,8 @@ export default class Box extends Component {
                 style={[
                     boxSize,
                     styles.box,
-                    winningBox ? styles.winning : '',
+                    winningBox || goodBox ? styles.winning : '',
+                    badBox ? styles.loosing : '',
                     enabled ? styles.enabled : '',
                     selected ? styles.selected : '',
                 ]}
@@ -75,6 +80,7 @@ const normalBoxColor = 'lightblue';
 const winningBoxColor = 'green';
 const clickedBoxColor = '#6699ff';
 const selectedBoxColor = '#80ffbf';
+const loosingBoxColor = 'orange';
 
 const styles = StyleSheet.create({
     box: {
@@ -87,6 +93,9 @@ const styles = StyleSheet.create({
     },
     winning: {
         backgroundColor: winningBoxColor,
+    },
+    loosing: {
+        backgroundColor: loosingBoxColor,
     },
     enabled: {
         opacity: 1,

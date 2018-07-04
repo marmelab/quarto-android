@@ -10,6 +10,7 @@ export default class RemainingList extends Component {
         list: PropTypes.object.isRequired,
         readOnly: PropTypes.bool,
         selectedPiece: PropTypes.number,
+        badPieces: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -17,7 +18,13 @@ export default class RemainingList extends Component {
     };
 
     render() {
-        const { list, readOnly, onPress, selectedPiece } = this.props;
+        const {
+            list,
+            readOnly,
+            onPress,
+            selectedPiece,
+            badPieces,
+        } = this.props;
         return (
             <View style={styles.row}>
                 {Object.keys(list).map(pieceKey => {
@@ -29,6 +36,9 @@ export default class RemainingList extends Component {
                                 enabled={!readOnly}
                                 onPress={onPress}
                                 selected={selectedPiece == list[pieceKey].id}
+                                badPiece={
+                                    badPieces.indexOf(list[pieceKey].id) >= 0
+                                }
                             />
                         );
                     }

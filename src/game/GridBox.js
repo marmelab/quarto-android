@@ -11,6 +11,7 @@ export default class GridBox extends Component {
         boxValue: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
         winningBox: PropTypes.bool.isRequired,
+        goodPlace: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -25,7 +26,7 @@ export default class GridBox extends Component {
     };
 
     render() {
-        const { boxValue, enabled, x, y, winningBox } = this.props;
+        const { boxValue, enabled, x, y, winningBox, goodPlace } = this.props;
 
         return (
             <Box
@@ -35,6 +36,7 @@ export default class GridBox extends Component {
                 label={'gridbox_x' + String(x) + '_y' + String(y)}
                 onPress={this.handlePress}
                 winningBox={winningBox}
+                goodBox={goodPlace}
             />
         );
     }
