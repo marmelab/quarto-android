@@ -13,17 +13,22 @@ import { View, ActivityIndicator } from 'react-native';
 class App extends React.Component {
     state = {
         page: 'Home',
-        idGame: 0,
-        list: 'current',
         loading: true,
+        params: {},
     };
 
     componentDidMount = async () => {
         const page = await retrieveCurrentPage();
         const idGame = await retrieveCurrentGameId();
-        const list = await retrieveCurrentList();
+        const listType = await retrieveCurrentList();
         if (page != null) {
-            this.setState({ page: page, idGame: idGame, list: list });
+            this.setState({ page: page });
+        }
+        if (page == 'Game' && idGame != null) {
+            this.setState({ params: { idGame: idGame } });
+        }
+        if (page == 'GameList' && listType != null) {
+            this.setState({ params: { listType: listType } });
         }
         this.setState({ loading: false });
     };
@@ -67,13 +72,10 @@ class App extends React.Component {
             },
             {
                 initialRouteName: this.state.page,
-                initialRouteParams: {
-                    idGame: this.state.idGame,
-                    listType: this.state.list,
-                    initial: true,
-                },
+                initialRouteParams: this.state.params,
             },
         );
+
         return React.createElement(Navigator);
     }
 }

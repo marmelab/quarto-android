@@ -15,8 +15,16 @@ export default class HomeScreen extends React.Component {
     };
 
     async componentDidMount() {
-        console.debug('componentDidMount HomeScreen');
-        await storeCurrentPage('Home');
+        this.focusListener = this.props.navigation.addListener(
+            'didFocus',
+            async () => {
+                await storeCurrentPage('Home');
+            },
+        );
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
     }
 
     render() {
@@ -58,7 +66,9 @@ export default class HomeScreen extends React.Component {
     openNewGame = async numberPlayers => {
         try {
             const { navigation } = this.props;
-            navigation.navigate('Game', { numberPlayers });
+            navigation.navigate('Game', {
+                numberPlayers,
+            });
         } catch (error) {
             showWarning(error);
         }
@@ -67,7 +77,9 @@ export default class HomeScreen extends React.Component {
     showGameList = async listType => {
         try {
             const { navigation } = this.props;
-            navigation.navigate('GameList', { listType });
+            navigation.navigate('GameList', {
+                listType,
+            });
         } catch (error) {
             showWarning(error);
         }

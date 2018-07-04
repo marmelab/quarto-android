@@ -55,31 +55,41 @@ export default class GameScreen extends React.Component {
     };
 
     async componentDidMount() {
-        console.debug('componentDidMount GameScreen');
-        const { navigation } = this.props;
-        const { idGame, numberPlayers, register } = navigation.state.params;
-        await storeCurrentPage('Game');
-        navigation.setParams({ loading: true });
-        let game = {};
-        if (idGame) {
-            game = await getGame(idGame, register);
-        } else if (numberPlayers) {
-            game = await newGame(numberPlayers);
-        }
-        this.setState({ game });
-        navigation.setParams({ loading: false });
-        navigation.setParams({ idGame: game.idGame });
+        this.focusListener = this.props.navigation.addListener(
+            'didFocus',
+            async () => {
+                clearInterval(this.interval);
+                const { navigation } = this.props;
+                const {
+                    idGame,
+                    numberPlayers,
+                    register,
+                } = navigation.state.params;
+                await storeCurrentPage('Game');
+                navigation.setParams({ loading: true });
+                let game = {};
+                if (numberPlayers) {
+                    game = await newGame(numberPlayers);
+                } else if (idGame) {
+                    game = await getGame(idGame, register);
+                }
+                this.setState({ game });
+                navigation.setParams({ loading: false });
+                navigation.setParams({ idGame: game.idGame });
 
-        this.interval = setInterval(async () => {
-            navigation.setParams({ loading: true });
-            game = await getGame(this.state.game.idGame, false);
-            this.setState({ game });
-            navigation.setParams({ loading: false });
-        }, 3000);
+                this.interval = setInterval(async () => {
+                    navigation.setParams({ loading: true });
+                    game = await getGame(this.state.game.idGame, false);
+                    this.setState({ game });
+                    navigation.setParams({ loading: false });
+                }, 3000);
+            },
+        );
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
+        this.focusListener.remove();
     }
 
     render() {

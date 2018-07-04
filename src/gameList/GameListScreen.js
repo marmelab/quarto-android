@@ -51,24 +51,31 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
-        console.debug('componentDidMount GameListScreen');
-        const { navigation } = this.props;
-        const { listType } = navigation.state.params;
-        await storeCurrentPage('GameList');
-        await storeCurrentList(listType);
-        const games = await listGames(listType);
-        this.setState({ games });
-        this.interval = setInterval(async () => {
-            navigation.setParams({ loading: true });
-            this.setState({ listType: listType });
-            const games = await listGames(listType);
-            this.setState({ games });
-            navigation.setParams({ loading: false });
-        }, 3000);
+        this.focusListener = this.props.navigation.addListener(
+            'didFocus',
+            async () => {
+                clearInterval(this.interval);
+                const { navigation } = this.props;
+                const { listType } = navigation.state.params;
+                await storeCurrentPage('GameList');
+                await storeCurrentList(listType);
+
+                const games = await listGames(listType);
+                this.setState({ games });
+                this.interval = setInterval(async () => {
+                    navigation.setParams({ loading: true });
+                    this.setState({ listType: listType });
+                    const games = await listGames(listType);
+                    this.setState({ games });
+                    navigation.setParams({ loading: false });
+                }, 3000);
+            },
+        );
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
+        this.focusListener.remove();
     }
 
     render() {
