@@ -91,10 +91,7 @@ export const listGames = async listType => {
         headers,
     })
         .then(handleErrors)
-        .then(res => res.json())
-        .then(res => {
-            return res;
-        });
+        .then(res => res.json());
 };
 
 export const placePiece = async (game, x, y) => {
@@ -108,10 +105,7 @@ export const placePiece = async (game, x, y) => {
         headers,
     })
         .then(handleErrors)
-        .then(res => res.json())
-        .then(res => {
-            return res;
-        });
+        .then(res => res.json());
 };
 
 export const selectPiece = async (game, piece) => {
@@ -125,10 +119,7 @@ export const selectPiece = async (game, piece) => {
         headers,
     })
         .then(handleErrors)
-        .then(res => res.json())
-        .then(res => {
-            return res;
-        });
+        .then(res => res.json());
 };
 
 export const aiPlayingCall = async idGame => {
@@ -140,10 +131,7 @@ export const aiPlayingCall = async idGame => {
         headers,
     })
         .then(handleErrors)
-        .then(res => res.json())
-        .then(res => {
-            return res;
-        });
+        .then(res => res.json());
 };
 
 export const getActionText = game => {
