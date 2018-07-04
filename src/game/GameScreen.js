@@ -18,6 +18,7 @@ import {
 import { showWarning } from '../services/WarningService';
 import Grid from './Grid';
 import RemainingList from './RemainingList';
+import { storeCurrentPage } from '../services/StorageService';
 
 export default class GameScreen extends React.Component {
     state = {
@@ -54,9 +55,10 @@ export default class GameScreen extends React.Component {
     };
 
     async componentDidMount() {
+        console.debug('componentDidMount GameListScreen');
         const { navigation } = this.props;
         const { idGame, numberPlayers, register } = navigation.state.params;
-
+        await storeCurrentPage('Game');
         navigation.setParams({ loading: true });
         let game = {};
         if (idGame) {

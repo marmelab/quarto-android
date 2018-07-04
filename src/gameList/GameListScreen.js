@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
+import { storeCurrentPage, storeCurrentList } from '../services/StorageService';
 
 export default class GameListScreen extends React.Component {
     state = {
@@ -50,8 +51,11 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
+        console.debug('componentDidMount GameListScreen');
         const { navigation } = this.props;
         const { listType } = navigation.state.params;
+        await storeCurrentPage('GameList');
+        await storeCurrentList(listType);
         const games = await listGames(listType);
         this.setState({ games });
         this.interval = setInterval(async () => {

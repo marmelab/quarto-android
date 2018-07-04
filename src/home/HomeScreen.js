@@ -1,12 +1,23 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { styles } from '../styles/GameStyles';
+import PropTypes from 'prop-types';
 import { showWarning } from '../services/WarningService';
+import { storeCurrentPage } from '../services/StorageService';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
         title: 'Quarto Android',
     };
+
+    static propTypes = {
+        navigation: PropTypes.object,
+    };
+
+    async componentDidMount() {
+        console.debug('componentDidMount GameListScreen');
+        await storeCurrentPage('Home');
+    }
 
     render() {
         return (
@@ -45,10 +56,12 @@ export default class HomeScreen extends React.Component {
     }
 
     openNewGame = async numberPlayers => {
-        const { navigation } = this.props;
-        navigation.navigate('Game', {
-            numberPlayers,
-        });
+        try {
+            const { navigation } = this.props;
+            navigation.navigate('Game', { numberPlayers });
+        } catch (error) {
+            showWarning(error);
+        }
     };
 
     showGameList = async listType => {

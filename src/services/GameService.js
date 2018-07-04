@@ -3,6 +3,7 @@ import {
     storeGameToken,
     retrieveGameTokenList,
     retrieveGameToken,
+    storeCurrentGameId,
 } from './StorageService';
 
 const HEADER_JSON = {
@@ -47,6 +48,7 @@ export const newGame = () => {
         .then(res => res.json())
         .then(res => {
             storeGameToken(res.idGame, res.tokenPlayerOne);
+            storeCurrentGameId(res.idGame);
             return res;
         });
 };
@@ -69,6 +71,7 @@ export const getGame = async (idGame, register) => {
         .then(res => res.json())
         .then(res => {
             storeGameToken(res.idGame, res.tokenPlayerTwo);
+            storeCurrentGameId(res.idGame);
             return res;
         });
 };
