@@ -38,3 +38,65 @@ const generateStorageTokens = async (idGame, token) => {
     }
     return tokenList;
 };
+
+export const storeCurrentPage = async page => {
+    try {
+        await AsyncStorage.setItem('@Quarto:currentPage', page);
+    } catch (error) {
+        showWarning(error, 'Current page cannot be saved in device');
+    }
+};
+
+export const retrieveCurrentPage = async () => {
+    try {
+        //await AsyncStorage.clear();
+        const value = await AsyncStorage.getItem('@Quarto:currentPage');
+        return value;
+    } catch (error) {
+        showWarning(error, 'Current page cannot be read in device');
+    }
+};
+
+export const storeCurrentGameId = async idGame => {
+    try {
+        await AsyncStorage.setItem('@Quarto:currentGame', String(idGame));
+    } catch (error) {
+        showWarning(error, 'Current game cannot be saved in device');
+    }
+};
+
+export const retrieveCurrentGameId = async () => {
+    try {
+        //await AsyncStorage.clear();
+        const value = await AsyncStorage.getItem('@Quarto:currentGame');
+        return parseInt(value);
+    } catch (error) {
+        showWarning(error, 'Current game cannot be read in device');
+    }
+};
+
+export const storeCurrentList = async listType => {
+    try {
+        await AsyncStorage.setItem('@Quarto:currentList', listType);
+    } catch (error) {
+        showWarning(error, 'Current game list cannot be saved in device');
+    }
+};
+
+export const retrieveCurrentList = async () => {
+    try {
+        //await AsyncStorage.clear();
+        const value = await AsyncStorage.getItem('@Quarto:currentList');
+        return value;
+    } catch (error) {
+        showWarning(error, 'Current game list cannot be read in device');
+    }
+};
+
+export const clearStorage = async () => {
+    try {
+        await AsyncStorage.clear();
+    } catch (error) {
+        showWarning(error, 'Storage connot be cleared in device');
+    }
+};

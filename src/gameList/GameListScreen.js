@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { styles } from '../styles/GameStyles';
 import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
+import { storeCurrentPage, storeCurrentList } from '../services/StorageService';
 
 export default class GameListScreen extends React.Component {
     state = {
@@ -50,21 +51,31 @@ export default class GameListScreen extends React.Component {
     };
 
     async componentDidMount() {
-        const { navigation } = this.props;
-        const { listType } = navigation.state.params;
-        const games = await listGames(listType);
-        this.setState({ games });
-        this.interval = setInterval(async () => {
-            navigation.setParams({ loading: true });
-            this.setState({ listType: listType });
-            const games = await listGames(listType);
-            this.setState({ games });
-            navigation.setParams({ loading: false });
-        }, 3000);
+        this.focusListener = this.props.navigation.addListener(
+            'didFocus',
+            async () => {
+                clearInterval(this.interval);
+                const { navigation } = this.props;
+                const { listType } = navigation.state.params;
+                await storeCurrentPage('GameList');
+                await storeCurrentList(listType);
+
+                const games = await listGames(listType);
+                this.setState({ games });
+                this.interval = setInterval(async () => {
+                    navigation.setParams({ loading: true });
+                    this.setState({ listType: listType });
+                    const games = await listGames(listType);
+                    this.setState({ games });
+                    navigation.setParams({ loading: false });
+                }, 3000);
+            },
+        );
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
+        this.focusListener.remove();
     }
 
     render() {
