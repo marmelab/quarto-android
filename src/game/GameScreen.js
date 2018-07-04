@@ -13,6 +13,7 @@ import {
     newGame,
     placePiece,
     selectPiece,
+    aiPlayingCall,
     getActionText,
 } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
@@ -29,13 +30,19 @@ export default class GameScreen extends React.Component {
         const idGame = navigation.state.params.idGame
             ? navigation.state.params.idGame
             : '(...)';
-        const numberOfPlayers = 2;
+        let numberOfPlayers = '#';
+        if (navigation.state.params.soloGame !== undefined) {
+            numberOfPlayers =
+                navigation.state.params.soloGame == true ? '1' : '2';
+        }
         let title = `Quarto game `;
         if (idGame) {
             title += ` #${idGame}`;
         }
         if (numberOfPlayers) {
-            title += ` (${numberOfPlayers} players)`;
+            title += ` (${numberOfPlayers} player${
+                numberOfPlayers > 1 ? 's' : ''
+            })`;
         }
         return {
             headerTitle: (
@@ -74,9 +81,11 @@ export default class GameScreen extends React.Component {
                     game = await getGame(idGame, register);
                 }
                 this.setState({ game });
-                navigation.setParams({ loading: false });
-                navigation.setParams({ idGame: game.idGame });
-
+                navigation.setParams({
+                    loading: false,
+                    idGame: game.idGame,
+                    soloGame: game.soloGame,
+                });
                 this.interval = setInterval(async () => {
                     navigation.setParams({ loading: true });
                     game = await getGame(this.state.game.idGame, false);
@@ -173,6 +182,12 @@ export default class GameScreen extends React.Component {
             this.setState({
                 game: newGame,
             });
+            if (this.state.game.soloGame) {
+                const newGame = await aiPlayingCall(this.state.game.idGame);
+                this.setState({
+                    game: newGame,
+                });
+            }
         } catch (error) {
             showWarning(error);
         }

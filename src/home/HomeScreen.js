@@ -41,6 +41,13 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         style={styles.button}
+                        onPress={() => this.openNewGame(1)}
+                        title="Start a new game (1P)"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
                         onPress={() => this.showGameList('current')}
                         title="My games"
                     />
@@ -65,8 +72,7 @@ export default class HomeScreen extends React.Component {
 
     openNewGame = async numberPlayers => {
         try {
-            const { navigation } = this.props;
-            navigation.navigate('Game', {
+            this.props.navigation.navigate('Game', {
                 numberPlayers,
             });
         } catch (error) {
@@ -76,8 +82,7 @@ export default class HomeScreen extends React.Component {
 
     showGameList = async listType => {
         try {
-            const { navigation } = this.props;
-            navigation.navigate('GameList', {
+            this.props.navigation.navigate('GameList', {
                 listType,
             });
         } catch (error) {

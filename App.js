@@ -18,19 +18,19 @@ class App extends React.Component {
     };
 
     componentDidMount = async () => {
-        const page = await retrieveCurrentPage();
-        const idGame = await retrieveCurrentGameId();
-        const listType = await retrieveCurrentList();
-        if (page != null) {
-            this.setState({ page: page });
+        const [page, idGame, listType] = await Promise.all([
+            retrieveCurrentPage(),
+            retrieveCurrentGameId(),
+            retrieveCurrentList(),
+        ]);
+        let params = {};
+        if (page == 'Game' && idGame !== null) {
+            params.idGame = idGame;
         }
-        if (page == 'Game' && idGame != null) {
-            this.setState({ params: { idGame: idGame } });
+        if (page == 'GameList' && listType !== null) {
+            params.listType = listType;
         }
-        if (page == 'GameList' && listType != null) {
-            this.setState({ params: { listType: listType } });
-        }
-        this.setState({ loading: false });
+        this.setState({ loading: false, page, params });
     };
 
     render() {

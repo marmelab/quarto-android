@@ -1,13 +1,16 @@
 import { AsyncStorage } from 'react-native';
 import { showWarning } from './WarningService';
 
+const prefixStorage = '@Quarto:';
+const tokenStorage = `${prefixStorage}gameTokens`;
+const pageStorage = `${prefixStorage}currentPage`;
+const gameStorage = `${prefixStorage}currentGame`;
+const listStorage = `${prefixStorage}currentList`;
+
 export const storeGameToken = async (idGame, token) => {
     try {
         const tokenList = await generateStorageTokens(idGame, token);
-        await AsyncStorage.setItem(
-            '@Quarto:gameTokens',
-            JSON.stringify(tokenList),
-        );
+        await AsyncStorage.setItem(tokenStorage, JSON.stringify(tokenList));
     } catch (error) {
         showWarning(error, 'Data cannot be saved in device');
     }
@@ -15,8 +18,7 @@ export const storeGameToken = async (idGame, token) => {
 
 export const retrieveGameTokenList = async () => {
     try {
-        //await AsyncStorage.clear();
-        const value = await AsyncStorage.getItem('@Quarto:gameTokens');
+        const value = await AsyncStorage.getItem(tokenStorage);
         if (value !== null) {
             return JSON.parse(value);
         }
@@ -41,7 +43,7 @@ const generateStorageTokens = async (idGame, token) => {
 
 export const storeCurrentPage = async page => {
     try {
-        await AsyncStorage.setItem('@Quarto:currentPage', page);
+        await AsyncStorage.setItem(pageStorage, page);
     } catch (error) {
         showWarning(error, 'Current page cannot be saved in device');
     }
@@ -49,8 +51,7 @@ export const storeCurrentPage = async page => {
 
 export const retrieveCurrentPage = async () => {
     try {
-        //await AsyncStorage.clear();
-        const value = await AsyncStorage.getItem('@Quarto:currentPage');
+        const value = await AsyncStorage.getItem(pageStorage);
         return value;
     } catch (error) {
         showWarning(error, 'Current page cannot be read in device');
@@ -59,7 +60,7 @@ export const retrieveCurrentPage = async () => {
 
 export const storeCurrentGameId = async idGame => {
     try {
-        await AsyncStorage.setItem('@Quarto:currentGame', String(idGame));
+        await AsyncStorage.setItem(gameStorage, String(idGame));
     } catch (error) {
         showWarning(error, 'Current game cannot be saved in device');
     }
@@ -67,8 +68,7 @@ export const storeCurrentGameId = async idGame => {
 
 export const retrieveCurrentGameId = async () => {
     try {
-        //await AsyncStorage.clear();
-        const value = await AsyncStorage.getItem('@Quarto:currentGame');
+        const value = await AsyncStorage.getItem(gameStorage);
         return parseInt(value);
     } catch (error) {
         showWarning(error, 'Current game cannot be read in device');
@@ -77,7 +77,7 @@ export const retrieveCurrentGameId = async () => {
 
 export const storeCurrentList = async listType => {
     try {
-        await AsyncStorage.setItem('@Quarto:currentList', listType);
+        await AsyncStorage.setItem(listStorage, listType);
     } catch (error) {
         showWarning(error, 'Current game list cannot be saved in device');
     }
@@ -85,8 +85,7 @@ export const storeCurrentList = async listType => {
 
 export const retrieveCurrentList = async () => {
     try {
-        //await AsyncStorage.clear();
-        const value = await AsyncStorage.getItem('@Quarto:currentList');
+        const value = await AsyncStorage.getItem(listStorage);
         return value;
     } catch (error) {
         showWarning(error, 'Current game list cannot be read in device');
