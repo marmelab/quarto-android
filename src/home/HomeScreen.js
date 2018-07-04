@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
     };
 
     async componentDidMount() {
-        console.debug('componentDidMount GameListScreen');
+        console.debug('componentDidMount HomeScreen');
         await storeCurrentPage('Home');
     }
 

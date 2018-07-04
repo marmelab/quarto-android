@@ -55,7 +55,7 @@ export default class GameScreen extends React.Component {
     };
 
     async componentDidMount() {
-        console.debug('componentDidMount GameListScreen');
+        console.debug('componentDidMount GameScreen');
         const { navigation } = this.props;
         const { idGame, numberPlayers, register } = navigation.state.params;
         await storeCurrentPage('Game');
