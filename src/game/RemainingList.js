@@ -10,6 +10,7 @@ export default class RemainingList extends Component {
         list: PropTypes.object.isRequired,
         readOnly: PropTypes.bool,
         selectedPiece: PropTypes.number,
+        activeZone: PropTypes.bool,
         badPieces: PropTypes.array.isRequired,
     };
 
@@ -24,6 +25,7 @@ export default class RemainingList extends Component {
             onPress,
             selectedPiece,
             badPieces,
+            activeZone,
         } = this.props;
         return (
             <View style={styles.row}>
@@ -34,6 +36,7 @@ export default class RemainingList extends Component {
                                 key={pieceKey}
                                 boxValue={String(list[pieceKey].id)}
                                 enabled={!readOnly}
+                                clickable={!readOnly && activeZone}
                                 onPress={onPress}
                                 selected={selectedPiece == list[pieceKey].id}
                                 badPiece={

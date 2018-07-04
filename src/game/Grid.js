@@ -11,6 +11,7 @@ export default class Grid extends Component {
         winningLine: PropTypes.array.isRequired,
         readOnly: PropTypes.bool,
         goodPlaces: PropTypes.array.isRequired,
+        activeZone: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -18,7 +19,14 @@ export default class Grid extends Component {
     };
 
     render() {
-        const { grid, readOnly, onPress, winningLine, goodPlaces } = this.props;
+        const {
+            grid,
+            readOnly,
+            onPress,
+            winningLine,
+            goodPlaces,
+            activeZone,
+        } = this.props;
 
         return (
             <View style={styles.column}>
@@ -33,6 +41,7 @@ export default class Grid extends Component {
                                         x={boxKey}
                                         y={rowKey}
                                         enabled={!readOnly}
+                                        clickable={!readOnly && activeZone}
                                         onPress={onPress}
                                         winningBox={
                                             winningLine.indexOf(boxValue) >= 0

@@ -8,6 +8,7 @@ export default class RemainingBox extends Component {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
+        clickable: PropTypes.bool,
         selected: PropTypes.bool,
         badPiece: PropTypes.bool,
     };
@@ -17,8 +18,8 @@ export default class RemainingBox extends Component {
     };
 
     handlePress = () => {
-        const { enabled, boxValue, onPress } = this.props;
-        if (enabled) {
+        const { boxValue, onPress, clickable } = this.props;
+        if (clickable) {
             onPress(boxValue);
         }
     };

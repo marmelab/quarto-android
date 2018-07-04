@@ -114,6 +114,7 @@ export default class GameScreen extends React.Component {
                             goodPlaces={game.winningPlaces}
                             winningLine={game.winningLine}
                             readOnly={game.locked}
+                            activeZone={game.selectedPiece > 0}
                         />
                         {game.locked &&
                             !game.closed &&
@@ -154,6 +155,7 @@ export default class GameScreen extends React.Component {
                                     : []
                             }
                             readOnly={game.locked}
+                            activeZone={game.selectedPiece === 0}
                         />
                     </View>
                 ) : (

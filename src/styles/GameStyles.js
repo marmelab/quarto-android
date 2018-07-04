@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
     },
     buttonContainer: {
         alignItems: 'stretch',
-        width: '80%',
-        margin: 4,
+        width: '100%',
+        margin: 0,
     },
     tabContainer: {
         flex: 1,

@@ -10,6 +10,7 @@ export default class GridBox extends Component {
         onPress: PropTypes.func.isRequired,
         boxValue: PropTypes.string.isRequired,
         enabled: PropTypes.bool,
+        clickable: PropTypes.bool,
         winningBox: PropTypes.bool.isRequired,
         goodPlace: PropTypes.bool,
     };
@@ -19,8 +20,8 @@ export default class GridBox extends Component {
     };
 
     handlePress = () => {
-        const { enabled, x, y, onPress } = this.props;
-        if (enabled) {
+        const { clickable, x, y, onPress } = this.props;
+        if (clickable) {
             onPress(x, y);
         }
     };

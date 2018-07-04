@@ -99,7 +99,15 @@ export default class GameListScreen extends React.Component {
                                                 listType == 'opened',
                                             )
                                         }
-                                        title={'Game #' + game.idGame}
+                                        title={
+                                            'Game #' +
+                                            game.idGame +
+                                            '  (' +
+                                            (game.soloGame
+                                                ? 'single'
+                                                : 'dual') +
+                                            ')'
+                                        }
                                     />
                                 </View>
                             );
@@ -145,6 +153,6 @@ export default class GameListScreen extends React.Component {
 
 const localStyles = StyleSheet.create({
     list: {
-        width: '100%',
+        width: '80%',
     },
 });
