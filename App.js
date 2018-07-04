@@ -18,9 +18,11 @@ class App extends React.Component {
     };
 
     componentDidMount = async () => {
-        const page = await retrieveCurrentPage();
-        const idGame = await retrieveCurrentGameId();
-        const listType = await retrieveCurrentList();
+        const [page, idGame, listType] = await Promise.all([
+            retrieveCurrentPage(),
+            retrieveCurrentGameId(),
+            retrieveCurrentList(),
+        ]);
         let params = {};
         if (page == 'Game' && idGame !== null) {
             params.idGame = idGame;

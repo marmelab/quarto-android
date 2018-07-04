@@ -18,7 +18,6 @@ export const storeGameToken = async (idGame, token) => {
 
 export const retrieveGameTokenList = async () => {
     try {
-        //await AsyncStorage.clear();
         const value = await AsyncStorage.getItem(tokenStorage);
         if (value !== null) {
             return JSON.parse(value);
@@ -52,7 +51,6 @@ export const storeCurrentPage = async page => {
 
 export const retrieveCurrentPage = async () => {
     try {
-        //await AsyncStorage.clear();
         const value = await AsyncStorage.getItem(pageStorage);
         return value;
     } catch (error) {
@@ -70,7 +68,6 @@ export const storeCurrentGameId = async idGame => {
 
 export const retrieveCurrentGameId = async () => {
     try {
-        //await AsyncStorage.clear();
         const value = await AsyncStorage.getItem(gameStorage);
         return parseInt(value);
     } catch (error) {
@@ -88,7 +85,6 @@ export const storeCurrentList = async listType => {
 
 export const retrieveCurrentList = async () => {
     try {
-        //await AsyncStorage.clear();
         const value = await AsyncStorage.getItem(listStorage);
         return value;
     } catch (error) {
