@@ -41,6 +41,13 @@ export default class HomeScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <Button
                         style={styles.button}
+                        onPress={() => this.openNewGame(1)}
+                        title="Start a new game (1P)"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style={styles.button}
                         onPress={() => this.showGameList('current')}
                         title="My games"
                     />

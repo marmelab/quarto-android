@@ -36,8 +36,11 @@ export const newEmptyGame = numberOfPlayers => {
     };
 };
 
-export const newGame = () => {
-    const url = `${BASE_URL}`;
+export const newGame = numberOfPlayers => {
+    let url = `${BASE_URL}`;
+    if (numberOfPlayers == 1) {
+        url += '/solo';
+    }
     const method = 'POST';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
@@ -115,6 +118,21 @@ export const selectPiece = async (game, piece) => {
     let url = `${BASE_URL}/${game.idGame}/select/${piece}`;
     let token = await retrieveGameToken(game.idGame);
     url += '?token=' + token;
+    const method = 'PUT';
+    const headers = Object.assign({}, HEADER_JSON);
+    return fetch(url, {
+        method,
+        headers,
+    })
+        .then(handleErrors)
+        .then(res => res.json())
+        .then(res => {
+            return res;
+        });
+};
+
+export const aiPlayingCall = async idGame => {
+    let url = `${BASE_URL}/${idGame}/submit`;
     const method = 'PUT';
     const headers = Object.assign({}, HEADER_JSON);
     return fetch(url, {
