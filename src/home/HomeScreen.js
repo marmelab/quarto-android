@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button, Text, View, StyleSheet, Image } from 'react-native';
-import { styles } from '../styles/GameStyles';
+import {
+    styles,
+    navigatorImage,
+    navigatorImageHome,
+} from '../styles/GameStyles';
 import PropTypes from 'prop-types';
 import { showWarning } from '../services/WarningService';
 import { storeCurrentPage } from '../services/StorageService';
@@ -9,7 +13,23 @@ const boardImage = require('../../resources/images/boardTitle.jpg');
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
-        title: 'Quarto Android',
+        headerTitle: (
+            <View style={styles.tabContainer}>
+                <View style={styles.navigatorImageView}>
+                    <Image
+                        style={styles.navigatorImageView}
+                        source={navigatorImageHome}
+                    />
+                </View>
+                <Text style={styles.tabTitle}>Quarto Android</Text>
+                <View style={styles.navigatorImageView}>
+                    <Image
+                        style={styles.navigatorImageView}
+                        source={navigatorImage}
+                    />
+                </View>
+            </View>
+        ),
     };
 
     static propTypes = {

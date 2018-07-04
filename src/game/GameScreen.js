@@ -5,9 +5,10 @@ import {
     ActivityIndicator,
     Button,
     StyleSheet,
+    Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { styles } from '../styles/GameStyles';
+import { styles, navigatorImage } from '../styles/GameStyles';
 import {
     getGame,
     newGame,
@@ -25,7 +26,6 @@ export default class GameScreen extends React.Component {
     state = {
         game: {},
     };
-
     static navigationOptions = ({ navigation }) => {
         const idGame = navigation.state.params.idGame
             ? navigation.state.params.idGame
@@ -48,8 +48,15 @@ export default class GameScreen extends React.Component {
             headerTitle: (
                 <View style={styles.tabContainer}>
                     <Text style={styles.tabTitle}>{title}</Text>
-                    {navigation.state.params.loading && (
+                    {navigation.state.params.loading ? (
                         <ActivityIndicator size="large" />
+                    ) : (
+                        <View style={styles.navigatorImageView}>
+                            <Image
+                                style={styles.navigatorImageView}
+                                source={navigatorImage}
+                            />
+                        </View>
                     )}
                 </View>
             ),
