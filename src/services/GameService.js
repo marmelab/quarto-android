@@ -37,8 +37,8 @@ export const newEmptyGame = numberOfPlayers => {
 };
 
 export const newGame = numberOfPlayers => {
-    let url = `${BASE_URL}`;
-    if (numberOfPlayers == 1) {
+    let url = BASE_URL;
+    if (numberOfPlayers === 1) {
         url += '/solo';
     }
     const method = 'POST';
