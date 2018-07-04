@@ -81,8 +81,8 @@ export default class GameScreen extends React.Component {
                     game = await getGame(idGame, register);
                 }
                 this.setState({ game });
-                navigation.setParams({ loading: false });
                 navigation.setParams({
+                    loading: false,
                     idGame: game.idGame,
                     soloGame: game.soloGame,
                 });
