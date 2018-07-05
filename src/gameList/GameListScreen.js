@@ -123,13 +123,35 @@ export default class GameListScreen extends React.Component {
                     </ScrollView>
                 ) : (
                     loading || (
-                        <View>
-                            <Text>No game found !</Text>
-                            <Button
-                                style={styles.button}
-                                onPress={this.backHome}
-                                title="Go back home"
-                            />
+                        <View style={[styles.container, localStyles.list]}>
+                            <Text style={styles.notifyText}>
+                                No game found !
+                            </Text>
+                            <Text style={styles.notifyText}>
+                                Wait for someone to create one or go create
+                                yours
+                            </Text>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    style={styles.button}
+                                    onPress={() => this.openNewGame(2)}
+                                    title="Start a new game (dual)"
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    style={styles.button}
+                                    onPress={() => this.openNewGame(1)}
+                                    title="Start a new game (single)"
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    style={styles.button}
+                                    onPress={this.backHome}
+                                    title="Go back home"
+                                />
+                            </View>
                         </View>
                     )
                 )}
