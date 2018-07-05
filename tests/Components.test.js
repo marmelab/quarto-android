@@ -33,6 +33,7 @@ describe('Components tests', () => {
                 grid={game.grid}
                 winningLine={[]}
                 readOnly={false}
+                goodPlaces={[]}
             />,
         );
 
