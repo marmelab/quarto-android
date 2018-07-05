@@ -123,8 +123,14 @@ export default class GameListScreen extends React.Component {
                     </ScrollView>
                 ) : (
                     loading || (
-                        <View>
-                            <Text>No game found !</Text>
+                        <View style={styles.container}>
+                            <Text style={styles.notifyText}>
+                                No game found !
+                            </Text>
+                            <Text style={styles.notifyText}>
+                                Wait for someone to create one or go create
+                                yours
+                            </Text>
                             <Button
                                 style={styles.button}
                                 onPress={this.backHome}

@@ -167,8 +167,13 @@ export default class GameScreen extends React.Component {
                     </View>
                 ) : (
                     loading || (
-                        <View>
-                            <Text>Game not found !</Text>
+                        <View style={styles.container}>
+                            <Text style={styles.notifyText}>
+                                Game not found !
+                            </Text>
+                            <Text style={styles.notifyText}>
+                                Go choose another
+                            </Text>
                             <Button
                                 style={styles.button}
                                 onPress={this.backHome}
