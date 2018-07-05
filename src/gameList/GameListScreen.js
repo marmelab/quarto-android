@@ -6,9 +6,10 @@ import {
     View,
     StyleSheet,
     ActivityIndicator,
+    Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { styles } from '../styles/GameStyles';
+import { styles, navigatorImage } from '../styles/GameStyles';
 import { listGames } from '../services/GameService';
 import { showWarning } from '../services/WarningService';
 import { storeCurrentPage, storeCurrentList } from '../services/StorageService';
@@ -38,8 +39,15 @@ export default class GameListScreen extends React.Component {
             headerTitle: (
                 <View style={styles.tabContainer}>
                     <Text style={styles.tabTitle}>{title}</Text>
-                    {navigation.state.params.loading && (
+                    {navigation.state.params.loading ? (
                         <ActivityIndicator size="large" />
+                    ) : (
+                        <View style={styles.navigatorImageView}>
+                            <Image
+                                style={styles.navigatorImageView}
+                                source={navigatorImage}
+                            />
+                        </View>
                     )}
                 </View>
             ),
@@ -99,7 +107,15 @@ export default class GameListScreen extends React.Component {
                                                 listType == 'opened',
                                             )
                                         }
-                                        title={'Game #' + game.idGame}
+                                        title={
+                                            'Game #' +
+                                            game.idGame +
+                                            '  (' +
+                                            (game.soloGame
+                                                ? 'single'
+                                                : 'dual') +
+                                            ')'
+                                        }
                                     />
                                 </View>
                             );
@@ -145,6 +161,6 @@ export default class GameListScreen extends React.Component {
 
 const localStyles = StyleSheet.create({
     list: {
-        width: '100%',
+        width: '80%',
     },
 });

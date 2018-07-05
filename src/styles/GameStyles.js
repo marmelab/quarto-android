@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 
 const pageColor = 'white';
 
+export const navigatorImage = require('../../resources/images/pieceImage4.png');
+export const navigatorImageHome = require('../../resources/images/pieceImage16.png');
+
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,8 +19,9 @@ export const styles = StyleSheet.create({
     },
     buttonContainer: {
         alignItems: 'stretch',
-        width: '80%',
-        margin: 4,
+        width: '100%',
+        margin: 0,
+        marginBottom: 2,
     },
     tabContainer: {
         flex: 1,
@@ -32,5 +36,15 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         lineHeight: 50,
         height: '100%',
+    },
+    navigatorImage: {
+        height: '90%',
+        width: '90%',
+    },
+    navigatorImageView: {
+        height: 60,
+        width: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
