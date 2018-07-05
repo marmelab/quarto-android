@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
         alignItems: 'stretch',
         width: '100%',
         margin: 0,
+        marginBottom: 2,
     },
     tabContainer: {
         flex: 1,

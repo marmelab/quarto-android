@@ -63,6 +63,22 @@ export default class HomeScreen extends React.Component {
                     <View style={styles.buttonContainer}>
                         <Button
                             style={styles.button}
+                            onPress={() => this.showGameList('current')}
+                            color={importantColor}
+                            title="My games"
+                        />
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            style={styles.button}
+                            onPress={() => this.showGameList('opened')}
+                            color={importantColor}
+                            title="Join opened games"
+                        />
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            style={styles.button}
                             onPress={() => this.openNewGame(2)}
                             title="Start a new game (dual)"
                         />
@@ -72,20 +88,6 @@ export default class HomeScreen extends React.Component {
                             style={styles.button}
                             onPress={() => this.openNewGame(1)}
                             title="Start a new game (single)"
-                        />
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            style={styles.button}
-                            onPress={() => this.showGameList('current')}
-                            title="My games"
-                        />
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            style={styles.button}
-                            onPress={() => this.showGameList('opened')}
-                            title="Join opened games"
                         />
                     </View>
                     <View style={styles.buttonContainer}>
@@ -120,6 +122,8 @@ export default class HomeScreen extends React.Component {
         }
     };
 }
+
+const importantColor = 'green';
 
 const localStyles = StyleSheet.create({
     page: {
