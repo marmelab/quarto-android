@@ -30,7 +30,11 @@ class App extends React.Component {
         if (page == 'GameList' && listType !== null) {
             params.listType = listType;
         }
-        this.setState({ loading: false, page, params });
+        this.setState({
+            loading: false,
+            page: page || undefined,
+            params,
+        });
     };
 
     render() {
